@@ -1,0 +1,33 @@
+.flex_row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.flex_column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.ingredient_card {
+    composes: flex_column;
+    flex-basis: 50%;
+    position: relative;
+}
+
+.ingredient_price {
+    composes: flex_row;
+}
+
+.ingredient_image {
+    width: 100%;
+    height: auto;
+}
+
+.ingredient_name {
+    text-align: center;
+    flex-basis: 48px;
+}

@@ -1,0 +1,22 @@
+.flex_row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.scroll {
+    overflow-y: auto;
+    scrollbar-color: #2F2F37 #8585AD;
+    scrollbar-width: thin;
+}
+
+.tab_selector {
+    composes: flex_row;
+    justify-content: flex-end;
+}
+
+.scroll_container {
+    composes: scroll;
+    height: calc(100vh - 244px);
+}
