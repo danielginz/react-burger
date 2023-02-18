@@ -25,7 +25,7 @@ function App() {
     useEffect(() => {
         const getIngredientsData = () => {
             setIngredientsData({...ingredientsData, isLoading: true, hasError: false, hasLoaded: false})
-            return fetch(API_URL)
+             fetch(API_URL)
                 .then(res => {
                     if (!res.ok) {
                         res.reject(res.statusText);
