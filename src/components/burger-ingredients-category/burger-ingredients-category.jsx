@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import PropTypes, {array} from 'prop-types';
 import burgerIngredientsCategoryStyles from './burger-ingredients-category.module.css';
 import BurgerIngredientsCard from '../burger-ingredients-card/burger-ingredients-card';
 
@@ -14,7 +14,7 @@ function BurgerIngredientsCategory(props) {
                     {props.items.map((item) =>
                         <BurgerIngredientsCard
                             name={item.name} price={item.price} image={item.image}
-                            value={item.__v} key={item._id}/>)}
+                            value={item.__v} key={item._id} onIngredientClick={props.onIngredientClick}/>)}
                 </ul>
                 : <h3 className='text text_type_main-default text_color_inactive pb-6'>
                     Категория пуста
