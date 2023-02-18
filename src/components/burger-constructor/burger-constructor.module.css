@@ -18,6 +18,18 @@
     scrollbar-width: thin;
 }
 
+.scroll::-webkit-scrollbar {
+    width: calc(var(--offset-base-size) * 2);
+}
+
+.scroll::-webkit-scrollbar-track {
+    background: #2F2F37;
+}
+
+.scroll::-webkit-scrollbar-thumb {
+    background: #8585AD;
+}
+
 .burger_constructor_list {
     composes: flex_column;
     gap: 10px;
