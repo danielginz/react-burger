@@ -7,7 +7,7 @@ import OrderDetails from '../order-details/order-details';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import appStyles from './app.module.css';
 
-const API_URL = 'https://norma.nomoreparties.space/api/ingredients';
+import { NORMA_API } from '../../utils/burger-api';
 
 function App() {
 
@@ -19,13 +19,12 @@ function App() {
     });
     const [isOrderModalOpen, setIsOrderModalOpen] = useState(false);
     const [isIngredientModalOpen, setIsIngredientModalOpen] = useState(false);
-    const [orderId, setOrderId] = useState('034536');
-    const [selectedItem, setSelectedItem] = useState([]);
+    const [selectedItem, setSelectedItem] = useState(null);
 
     useEffect(() => {
         const getIngredientsData = () => {
             setIngredientsData({...ingredientsData, isLoading: true, hasError: false, hasLoaded: false})
-             fetch(API_URL)
+            fetch(`${NORMA_API}/ingredients`)
                 .then(res => {
                     if (!res.ok) {
                         res.reject(res.statusText);
@@ -42,20 +41,36 @@ function App() {
         getIngredientsData();
     }, []);
 
-    const closeAllModals = () => {
+    const closeOrderDetailsModal = () => {
         setIsOrderModalOpen(false);
+    };
+
+    const closeIngredientDetailsModal = () => {
         setIsIngredientModalOpen(false);
     };
 
     const openOrderModal = () => {
+        console.log("AAA, openOrderModal");
         setIsOrderModalOpen(true);
     };
 
-    const openIngredientModal = useCallback((clickedItem) => {
-            setSelectedItem(clickedItem);
+    /*const openIngredientModal = useCallback((clickedItemId) => {
+        console.log("AAA, openIngredientModal, clickedItemId: "+clickedItemId);
+        console.log("AAA, openIngredientModal, ingredientsData.items: "+JSON.stringify(ingredientsData.items));
+        const clickedItems = ingredientsData.items.filter(item => (item._id === clickedItemId));
+        console.log("AAA, openIngredientModal, clickedItem: "+JSON.stringify(clickedItems));
+            setSelectedItem(clickedItems[0]);
             setIsIngredientModalOpen(true);
         }, []
-    );
+    );*/
+
+    function openIngredientModal(clickedItemId) {
+        console.log("AAA, openIngredientModal, clickedItemId: "+clickedItemId);
+        const clickedItems = ingredientsData.items.filter(item => (item._id === clickedItemId));
+        console.log("AAA, openIngredientModal, clickedItem: "+JSON.stringify(clickedItems[0]));
+        setSelectedItem(clickedItems[0]);
+        setIsIngredientModalOpen(true);
+    }
 
     const bunItem = ingredientsData.items.filter(item => item.type === 'bun')[0];
     const middleItems = ingredientsData.items.filter(item => (item.type === 'sauce' || item.type === 'main')).slice(4, 12);
@@ -85,7 +100,8 @@ function App() {
                 !ingredientsData.isLoading && (
                     <div className={appStyles.container}>
                         <section className={appStyles.container_left + ' mr-5'}>
-                            <BurgerIngredients items={ingredientsData.items} onIngredientClick={openIngredientModal} />
+                            <BurgerIngredients items={ingredientsData.items}
+                               onIngredientClick={openIngredientModal} />
                         </section>
                         <section className={appStyles.container_right + ' ml-5'}>
                             <BurgerConstructor bunItem={bunItem} middleItems={middleItems} onOrderButtonClick={openOrderModal} />
@@ -96,16 +112,17 @@ function App() {
                 isOrderModalOpen && (
                     <Modal
                         header={null}
-                        closeModal={closeAllModals}
+                        closeModal={closeOrderDetailsModal}
                         isFancyCloseIcon >
-                        <OrderDetails orderId={orderId} />
+                       {/*<OrderDetails />*/}
+                        <OrderDetails item={selectedItem}/>
                     </Modal>
                 )}
             {
                 isIngredientModalOpen && (
                     <Modal
                         header='Детали ингредиента'
-                        closeModal={closeAllModals} >
+                        closeModal={closeIngredientDetailsModal} >
                         <IngredientDetails item={selectedItem} />
                     </Modal>
                 )}
