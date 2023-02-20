@@ -54,26 +54,13 @@ function App() {
         setIsOrderModalOpen(true);
     };
 
-    /*const openIngredientModal = useCallback((clickedItemId) => {
-        console.log("AAA, openIngredientModal, clickedItemId: "+clickedItemId);
-        console.log("AAA, openIngredientModal, ingredientsData.items: "+JSON.stringify(ingredientsData.items));
-        const clickedItems = ingredientsData.items.filter(item => (item._id === clickedItemId));
-        console.log("AAA, openIngredientModal, clickedItem: "+JSON.stringify(clickedItems));
-            setSelectedItem(clickedItems[0]);
-            setIsIngredientModalOpen(true);
-        }, []
-    );*/
-
-    function openIngredientModal(clickedItemId) {
+    const openIngredientModal = (clickedItemId) => {
         console.log("AAA, openIngredientModal, clickedItemId: "+clickedItemId);
         const clickedItems = ingredientsData.items.filter(item => (item._id === clickedItemId));
         console.log("AAA, openIngredientModal, clickedItem: "+JSON.stringify(clickedItems[0]));
         setSelectedItem(clickedItems[0]);
         setIsIngredientModalOpen(true);
     }
-
-    const bunItem = ingredientsData.items.filter(item => item.type === 'bun')[0];
-    const middleItems = ingredientsData.items.filter(item => (item.type === 'sauce' || item.type === 'main')).slice(4, 12);
 
     return (
         <>
@@ -104,7 +91,7 @@ function App() {
                                onIngredientClick={openIngredientModal} />
                         </section>
                         <section className={appStyles.container_right + ' ml-5'}>
-                            <BurgerConstructor bunItem={bunItem} middleItems={middleItems} onOrderButtonClick={openOrderModal} />
+                            <BurgerConstructor items={ingredientsData.items} onOrderButtonClick={openOrderModal} />
                         </section>
                     </div>
                 )}
