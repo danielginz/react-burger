@@ -5,7 +5,6 @@ import orderAcceptedImage from '../../images/order-accepted.gif'
 
 const ORDER_ID = '034536';
 function OrderDetails(props) {
-    console.log("AAA, order-details, props: "+JSON.stringify(this.props));
     return(
         <div className={orderDetailsStyles.order_details_container + ' mt-20 mb-15'}>
             <p className={orderDetailsStyles.order_id + ' text text_type_digits-large'}>
@@ -29,7 +28,7 @@ function OrderDetails(props) {
     );
 }
 
-OrderDetails.propTypes = {
+/*OrderDetails.propTypes = {
     item: PropTypes.shape({
         __v: PropTypes.number.isRequired,
         _id: PropTypes.string.isRequired,
@@ -44,7 +43,7 @@ OrderDetails.propTypes = {
         carbohydrates: PropTypes.number.isRequired,
         price: PropTypes.number.isRequired,
     }).isRequired
-};
+};*/
 
 
 
