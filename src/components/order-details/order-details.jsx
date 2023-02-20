@@ -1,7 +1,7 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import orderDetailsStyles from './order-details.module.css';
 import orderAcceptedImage from '../../images/order-accepted.gif'
+
 
 const ORDER_ID = '034536';
 function OrderDetails(props) {
@@ -27,24 +27,5 @@ function OrderDetails(props) {
         </div>
     );
 }
-
-/*OrderDetails.propTypes = {
-    item: PropTypes.shape({
-        __v: PropTypes.number.isRequired,
-        _id: PropTypes.string.isRequired,
-        type: PropTypes.string.isRequired,
-        name: PropTypes.string.isRequired,
-        image: PropTypes.string.isRequired,
-        image_mobile: PropTypes.string.isRequired,
-        image_large: PropTypes.string.isRequired,
-        calories: PropTypes.number.isRequired,
-        proteins: PropTypes.number.isRequired,
-        fat: PropTypes.number.isRequired,
-        carbohydrates: PropTypes.number.isRequired,
-        price: PropTypes.number.isRequired,
-    }).isRequired
-};*/
-
-
 
 export default OrderDetails;
