@@ -50,14 +50,11 @@ function App() {
     };
 
     const openOrderModal = () => {
-        console.log("AAA, openOrderModal");
         setIsOrderModalOpen(true);
     };
 
     const openIngredientModal = (clickedItemId) => {
-        console.log("AAA, openIngredientModal, clickedItemId: "+clickedItemId);
         const clickedItems = ingredientsData.items.filter(item => (item._id === clickedItemId));
-        console.log("AAA, openIngredientModal, clickedItem: "+JSON.stringify(clickedItems[0]));
         setSelectedItem(clickedItems[0]);
         setIsIngredientModalOpen(true);
     }
@@ -101,7 +98,6 @@ function App() {
                         header={null}
                         closeModal={closeOrderDetailsModal}
                         isFancyCloseIcon >
-                       {/*<OrderDetails />*/}
                         <OrderDetails item={selectedItem}/>
                     </Modal>
                 )}
