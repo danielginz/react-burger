@@ -6,13 +6,12 @@ import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-c
 function BurgerIngredientsCard(props) {
 
     const handleIngredientClick = () => {
-        console.log("AAA, BurgerIngredientsCard, handleIngredientClick, props: "+JSON.stringify(props));
-        console.log("AAA, props.key: "+props.id);
+        console.log("AAA, BurgerIngredientsCard, handleIngredientClick, props.id: "+props.id);
         props.onIngredientClick(props.id);
     }
 
     return(
-        <li className={burgerIngredientsCardStyles.ingredient_card} onClick={handleIngredientClick}>
+        <li className={burgerIngredientsCardStyles.ingredient_card} onClick={handleIngredientClick} key={props.id}>
             {props.value ? <Counter count={props.value}/> : null}
             <img src={props.image} alt={props.name} title={props.name} className="ml-4 mr-4"/>
                 <div className={burgerIngredientsCardStyles.ingredient_price + ' mt-1 mb-1 '}>
@@ -31,7 +30,7 @@ BurgerIngredientsCard.propTypes = {
     value: PropTypes.number.isRequired,
     price: PropTypes.number.isRequired,
     image: PropTypes.string.isRequired,
-    id: PropTypes.string.isRequired,
+    //_id: PropTypes.string.isRequired,
     onIngredientClick: PropTypes.func.isRequired
 
     /*calories: PropTypes.number.isRequired,
