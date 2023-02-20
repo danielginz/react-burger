@@ -7,17 +7,10 @@ function BurgerConstructor(props) {
     const bun = props.items.find(item => item.type === 'bun');
     const ingredients = props.items.filter(item => (item.type !== 'bun')).slice(4, 12);
 
-    const calcPrice = (bun) => {
-        if(bun != undefined) {
-            const price = bun.price * 2 + ingredients.reduce((acc, p) => acc + p.price, 0);
-            console.log("AAA, calcPrice, price: "+price);
-        }
-    };
-    const calculatePrice = useMemo(() => calcPrice(), []);
+    const totalPrice = useMemo(() => {
+        return bun.price * 2 + ingredients.reduce((acc, p) => acc + p.price, 0);
+    }, [ingredients, bun]);
 
-
-    //console.log("AAA, burger-constructor, props.items: "+JSON.stringify(props.items));
-    //console.log("AAA, burger-constructor, ingridients: "+JSON.stringify(ingredients));//it's working
     return(
         <>
             <ul className={burgerConstructorStyles.burger_constructor_list + ' ml-4 mt-25 mb-10 pr-4'}>
@@ -66,8 +59,7 @@ function BurgerConstructor(props) {
             <div className={burgerConstructorStyles.burger_constructor_order + ' mr-4 mb-10'}>
                 <p className="text text_type_digits-medium">
                     {
-                        calculatePrice
-                        //bun.price * 2 + ingredients.reduce((acc, p) => acc + p.price, 0)
+                        totalPrice
                     }
                 </p>
                 <span className='ml-2 mr-10'>
