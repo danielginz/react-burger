@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import burgerIngredientsCategoryStyles from './burger-ingredients-category.module.css';
 import BurgerIngredientsCard from '../burger-ingredients-card/burger-ingredients-card';
+import {ingredientType} from '../../utils/prop-types';
 
 function BurgerIngredientsCategory(props) {
     return(
@@ -24,21 +25,7 @@ function BurgerIngredientsCategory(props) {
 }
 
 BurgerIngredientsCategory.propTypes = {
-    items: PropTypes.arrayOf(PropTypes.shape({
-        name: PropTypes.string.isRequired,
-        price: PropTypes.number.isRequired,
-        image: PropTypes.string.isRequired,
-        __v: PropTypes.number.isRequired,
-        _id: PropTypes.string.isRequired,
-
-        calories: PropTypes.number.isRequired,
-        carbohydrates: PropTypes.number.isRequired,
-        fat: PropTypes.number.isRequired,
-        proteins: PropTypes.number.isRequired,
-        type: PropTypes.string.isRequired,
-        image_large: PropTypes.string.isRequired,
-        image_mobile: PropTypes.string.isRequired
-    }).isRequired).isRequired
+    items: PropTypes.arrayOf(ingredientType).isRequired
 };
 
 export default BurgerIngredientsCategory;
