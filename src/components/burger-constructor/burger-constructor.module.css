@@ -1,0 +1,82 @@
+.flex_row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.flex_column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.scroll {
+    overflow-y: auto;
+    scrollbar-color: #2F2F37 #8585AD;
+    scrollbar-width: thin;
+}
+
+.scroll::-webkit-scrollbar {
+    width: calc(var(--offset-base-size) * 2);
+}
+
+.scroll::-webkit-scrollbar-track {
+    background: #2F2F37;
+}
+
+.scroll::-webkit-scrollbar-thumb {
+    background: #8585AD;
+}
+
+.burger_constructor_list {
+    composes: flex_column;
+    gap: 10px;
+    align-items: stretch;
+}
+
+.burger_constructor_list li div {
+    background: var(--background);
+}
+
+.burger_constructor_draggable_list {
+    composes: burger_constructor_list;
+    composes: scroll;
+    scroll-snap-type: y proximity;
+    position: relative;
+    margin-left: calc(var(--offset-base-size) * -4);
+    left: calc(var(--offset-base-size) * 4);
+    max-height: calc(100vh - 536px);
+}
+
+.burger_constructor_draggable_list_item {
+    composes: flex_row;
+    scroll-snap-align: start;
+    justify-content: flex-start;
+}
+
+.burger_constructor_drag_icon {
+    flex-shrink: 0;
+    margin-right: calc(var(--offset-base-size) * 2);
+}
+
+.burger_constructor_order {
+    composes: flex_row;
+    justify-content: flex-end;
+
+}
+
+.burger_constructor_order svg {
+    width: 33px;
+    height: auto;
+}
+
+/*:global(.constructor-element__text) {
+    min-height: 48px;
+    width: 254px;
+}*/
+
+.warningText {
+    text-align: center;
+}
