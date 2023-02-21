@@ -25,7 +25,7 @@ function BurgerIngredientsCategory(props) {
 }
 
 BurgerIngredientsCategory.propTypes = {
-    items: PropTypes.arrayOf(ingredientType).isRequired
+    items: PropTypes.arrayOf(ingredientType.isRequired).isRequired
 };
 
 export default BurgerIngredientsCategory;
