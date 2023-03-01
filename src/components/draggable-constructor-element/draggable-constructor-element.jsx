@@ -37,7 +37,6 @@ function DraggableConstructorElement({ item, index }) {
           isItemDragging: monitor.isDragging()
       }),
       end(item, monitor) {
-        // reorder only, not for new ingredients
         if(monitor.didDrop()) {
           dispatch(moveMiddleItem({
             oldIndex: index,
