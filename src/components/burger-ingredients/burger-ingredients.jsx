@@ -1,52 +1,100 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { useInView } from 'react-intersection-observer';
+
 import burgerIngredientsStyles from './burger-ingredients.module.css';
 import BurgerIngredientsCategory from '../burger-ingredients-category/burger-ingredients-category';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
-import {ingredientType} from '../../utils/prop-types';
 
-function BurgerIngredients(props) {
-    const [current, setCurrent] = React.useState('bun')
+function BurgerIngredients(/*props*/) {
+    const [current, setCurrent] = useState('bun')
+
+    const { items } = useSelector(state => state.items);
+
+    const setTab = (tabName) => {
+        setCurrent(tabName);
+        document.getElementById(tabName).scrollIntoView({behavior:"smooth"})
+    }
+    const handleBunTabClick = () => {
+        setTab('bun');
+    };
+    const handleSauceTabClick = () => {
+        setTab('sauce');
+    };
+    const handleMainTabClick = () => {
+        setTab('main');
+    };
+
+    const inViewOptions = {
+        threshold: 0,
+        trackVisibility: true,
+        delay: 100
+    };
+    const [bunRef, inViewBun] = useInView(inViewOptions);
+    const [mainRef, inViewMain] = useInView(inViewOptions);
+    const [sauceRef, inViewSauce] = useInView(inViewOptions);
+
+    useEffect(() => {
+        if (inViewBun) {
+            setCurrent('bun');
+        }
+        else if (inViewSauce) {
+            setCurrent('sauce');
+        }
+        else if (inViewMain) {
+            setCurrent('main');
+        }
+    }, [inViewBun, inViewMain, inViewSauce]);
+
     return(
         <>
             <h1 className="text text_type_main-large mt-10 mb-5">
                 Соберите бургер
             </h1>
             <div className={burgerIngredientsStyles.tab_selector}>
-                <Tab value="bun" active={current === 'bun'} onClick={setCurrent}>
+                <Tab
+                    active={current === 'bun'}
+                    onClick={handleBunTabClick}
+                >
                     Булки
                 </Tab>
-                <Tab value="sauce" active={current === 'sauce'} onClick={setCurrent}>
+                <Tab
+                    active={current === 'sauce'}
+                    onClick={handleSauceTabClick}
+                >
                     Соусы
                 </Tab>
-                <Tab value="main" active={current === 'main'} onClick={setCurrent}>
+                <Tab
+                    active={current === 'main'}
+                    onClick={handleMainTabClick}
+                >
                     Начинки
                 </Tab>
             </div>
-            <div className={burgerIngredientsStyles.scroll_container}>
+            <div
+                className={burgerIngredientsStyles.scroll_container}
+            >
                 <BurgerIngredientsCategory
                     heading="Булки"
-                    items={props.items.filter(item => item.type === 'bun')}
-                    onIngredientClick={props.onIngredientClick}
+                    categoryId='bun'
+                    items={items.filter(item => item.type === 'bun')}
+                    ref={bunRef}
                 />
                 <BurgerIngredientsCategory
                     heading="Соусы"
-                    items={props.items.filter(item => item.type === 'sauce')}
-                    onIngredientClick={props.onIngredientClick}
+                    categoryId='sauce'
+                    items={items.filter(item => item.type === 'sauce')}
+                    ref={sauceRef}
                 />
                 <BurgerIngredientsCategory
                     heading="Начинки"
-                    items={props.items.filter(item => item.type === 'main')}
-                    onIngredientClick={props.onIngredientClick}
+                    categoryId='main'
+                    items={items.filter(item => item.type === 'main')}
+                    ref={mainRef}
                 />
             </div>
         </>
     );
 }
-
-BurgerIngredients.propTypes = {
-    items: PropTypes.arrayOf(ingredientType.isRequired).isRequired,
-    onIngredientClick: PropTypes.func.isRequired
-};
 
 export default BurgerIngredients;
