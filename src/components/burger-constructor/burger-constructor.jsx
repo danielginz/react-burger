@@ -90,7 +90,6 @@ function BurgerConstructor() {
                                     <DraggableConstructorElement
                                         item={item}
                                         index={index}
-                                        // key should have random generated hash or timestamp added to '_id'
                                         key={item._id+generateItemHash()}
                                     />
                                 ))}
