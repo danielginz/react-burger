@@ -6,7 +6,7 @@ import burgerIngredientsStyles from './burger-ingredients.module.css';
 import BurgerIngredientsCategory from '../burger-ingredients-category/burger-ingredients-category';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 
-function BurgerIngredients(/*props*/) {
+function BurgerIngredients() {
     const [current, setCurrent] = useState('bun')
 
     const { items } = useSelector(state => state.items);
