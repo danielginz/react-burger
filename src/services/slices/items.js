@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { NORMA_API } from '../../utils/burger-api';
+import ErrorFallback from "../../utils/error-fallback";
 
 export const getItems = () => {
     return dispatch => {
@@ -15,7 +16,7 @@ export const getItems = () => {
                 dispatch(itemsSlice.actions.success(data));
             })
             .catch((error) => {
-                console.log(error);
+                <ErrorFallback error={error} />;
                 dispatch(itemsSlice.actions.failed());
             })
     }
