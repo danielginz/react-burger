@@ -3,9 +3,9 @@ import { createSlice } from '@reduxjs/toolkit'
 export const burgerConstructorSlice = createSlice({
     name: 'burgerConstructor',
     initialState: {
-        bunItem: {},
-        middleItems: [],
-        totalPrice: 0
+        bunItem: null,
+        middleItems: []/*,
+        totalPrice: 0*/
     },
     reducers: {
         setBunItem(state, action) {
@@ -23,9 +23,9 @@ export const burgerConstructorSlice = createSlice({
         },
         clearMiddleItems(state) {
             state.middleItems = [];
-        },
+        }/*,
         calcTotalPrice(state) {
-            !!state.bunItem.name ? (
+            !!state.bunItem ? (
                 // there are 2 types of bun only:
                 state.totalPrice = state.bunItem.price * 2 + state.middleItems.reduce(
                     (acc, p) => acc + p.price, 0
@@ -36,6 +36,6 @@ export const burgerConstructorSlice = createSlice({
                     state.totalPrice = 0
                 )
             );
-        }
+        }*/
     }
 })

@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 import { NORMA_API } from '../../utils/burger-api';
 import { burgerConstructorSlice } from './burger-constructor';
 import { itemsSlice } from './items';
+import { ErrorFallback } from '../../utils/error-fallback';
 
 export const placeOrder = (items) => {
     return dispatch => {
@@ -29,19 +30,17 @@ export const placeOrder = (items) => {
                         success: data.success
                     }))
                 else {
-                    dispatch(orderSlice.actions.failed())
                     throw Error(data.message);
                 }
             })
             .catch((error) => {
-                console.log(error);
+                dispatch(orderSlice.actions.failed())
+                return <ErrorFallback error={error} />;
             })
-            // show modal only after fetch is done so it won't show old data if it's open again:
-            // in case of error we'll show OrderDetail modal to user anyway to let him see the error message in it
             .finally(() => {
                 dispatch(orderSlice.actions.openOrderModal())
                 // clearing ordered ingredients from BurgerConstructor
-                dispatch(burgerConstructorSlice.actions.setBunItem({}));
+                dispatch(burgerConstructorSlice.actions.setBunItem(null));
                 dispatch(burgerConstructorSlice.actions.clearMiddleItems([]));
                 dispatch(itemsSlice.actions.clearValues([]));
             })
@@ -51,7 +50,7 @@ export const placeOrder = (items) => {
 export const orderSlice = createSlice({
     name: 'order',
     initialState: {
-        orderData: {},
+        orderData: null,
         orderRequest: false,
         orderFailed: false,
         orderSuccess: false,
