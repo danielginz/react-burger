@@ -3,20 +3,13 @@ import appStyles from './app.module.css';
 import AppHeader from '../app-header/app-header';
 import BurgerConstructor from '../burger-constructor/burger-constructor.jsx';
 import BurgerIngredients from '../burger-ingredients/burger-ingredients';
-import Modal from '../modal/modal';
-import OrderDetails from '../order-details/order-details';
-import IngredientDetails from '../ingredient-details/ingredient-details';
 import { useSelector, useDispatch } from "react-redux";
 import { getItems } from '../../services/slices/items';
-import { orderSlice } from '../../services/slices/order';
-import { ingredientSlice } from '../../services/slices/ingredient';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { DndProvider } from 'react-dnd';
 
 function App() {
     const dispatch = useDispatch();
-    const { closeOrderModal } = orderSlice.actions;
-    const { closeIngredientModal } = ingredientSlice.actions;
 
     const {
         itemsRequest,
@@ -26,28 +19,9 @@ function App() {
         state => state.items
     );
 
-    const {
-        orderData,
-        isOrderModalOpen
-    } = useSelector(
-        state => state.order
-    );
-
-    const {
-        selectedIngredient,
-        isIngredientModalOpen
-    } = useSelector(
-        state => state.ingredient
-    );
-
     useEffect(() => {
         dispatch(getItems())
     }, [dispatch]);
-
-    const closeAllModals = () => {
-        dispatch(closeOrderModal());
-        dispatch(closeIngredientModal());
-    };
 
     return (
         <>
@@ -82,23 +56,6 @@ function App() {
                             </section>
                         </DndProvider>
                     </div>
-                )}
-            {
-                isOrderModalOpen && (
-                    <Modal
-                        header={null}
-                        closeModal={closeAllModals}
-                        isFancyCloseIcon >
-                        <OrderDetails orderData={orderData} />
-                    </Modal>
-                )}
-            {
-                isIngredientModalOpen && (
-                    <Modal
-                        header='Детали ингредиента'
-                        closeModal={closeAllModals} >
-                        <IngredientDetails item={selectedIngredient} />
-                    </Modal>
                 )}
         </>
     );
