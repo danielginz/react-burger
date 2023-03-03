@@ -1,20 +1,28 @@
-import React, { useEffect} from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useDrop } from 'react-dnd';
+import {BUN, MAIN, SAUCE} from '../../utils/constants';
 
 import burgerConstructorStyles from './burger-constructor.module.css';
 import { ConstructorElement, CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import DraggableConstructorElement from '../draggable-constructor-element/draggable-constructor-element';
-import { placeOrder } from '../../services/slices/order';
+import {orderSlice, placeOrder} from '../../services/slices/order';
 
 import { burgerConstructorSlice } from '../../services/slices/burger-constructor';
 import { itemsSlice } from '../../services/slices/items';
+import Modal from "../modal/modal";
+import OrderDetails from "../order-details/order-details";
+import {ingredientSlice} from "../../services/slices/ingredient";
 
 function BurgerConstructor() {
     const dispatch = useDispatch();
-    const { increaseQuantityValue, decreaseQuantityValue } = itemsSlice.actions;
-    const { setBunItem, calcTotalPrice } = burgerConstructorSlice.actions
-    const { bunItem, middleItems, totalPrice } = useSelector(state => state.burgerConstructor);
+    const { actions } = itemsSlice.actions;
+
+    const { setBunItem/*, calcTotalPrice*/ } = burgerConstructorSlice.actions
+    const { bunItem, middleItems/*, totalPrice*/ } = useSelector(state => state.burgerConstructor);
+
+    const { closeOrderModal } = orderSlice.actions;
+    const { closeIngredientModal } = ingredientSlice.actions;
 
     const onOrderButtonClick = () => {
         const items = [bunItem._id];
@@ -22,46 +30,65 @@ function BurgerConstructor() {
         dispatch(placeOrder(items));
     };
 
-    useEffect(() => {
+    /*useEffect(() => {
         dispatch(calcTotalPrice());
-    }, [dispatch, bunItem, middleItems, calcTotalPrice]);
+    }, [dispatch, bunItem, middleItems, calcTotalPrice]);*/
 
 
     const handleBunItemDrop = (newBunItem) => {
         dispatch(setBunItem(newBunItem));
-        dispatch(decreaseQuantityValue(bunItem._id));
-        dispatch(decreaseQuantityValue(bunItem._id));
-        dispatch(increaseQuantityValue(newBunItem._id));
-        dispatch(increaseQuantityValue(newBunItem._id));
+        dispatch(actions.decreaseQuantityValue(bunItem._id));
+        dispatch(actions.decreaseQuantityValue(bunItem._id));
+        dispatch(actions.increaseQuantityValue(newBunItem._id));
+        dispatch(actions.increaseQuantityValue(newBunItem._id));
     };
 
     const [, dropTopBunTarget] = useDrop({
-        accept: 'bun',
+        accept: `${BUN}`,
         drop(newBunItem) {
             handleBunItemDrop(newBunItem);
         }
     });
 
     const [, dropBottomBunTarget] = useDrop({
-        accept: 'bun',
+        accept: `${BUN}`,
         drop(newBunItem) {
             handleBunItemDrop(newBunItem);
         }
     });
 
     const [, dropMiddleItemTarget] = useDrop({
-        accept: ['sauce', 'main']
+        accept: [`${SAUCE}`, `${MAIN}`]
     });
 
     const generateItemHash = () => (
         Math.floor(Math.random() * 10000)
     );
 
+    const {
+        orderData,
+        isOrderModalOpen
+    } = useSelector(
+        state => state.order
+    );
+
+    const closeAllModals = () => {
+        dispatch(closeOrderModal());
+        dispatch(closeIngredientModal());
+    };
+
+    const totalPrice = useMemo(() => {
+        if(bunItem !== null) {
+            return bunItem.price * 2 + middleItems.reduce((acc, p) => acc + p.price, 0);
+        }
+
+    }, [middleItems, bunItem]);
+
     return(
         <>
             <ul className={burgerConstructorStyles.burger_constructor_list + ' ml-4 mt-25 mb-10 pr-4'}>
                 <li className='pl-8' ref={dropTopBunTarget}>
-                    {!!bunItem.name ? (
+                    {(!!bunItem) ? (
                         <ConstructorElement
                             type='top'
                             isLocked={true}
@@ -109,7 +136,7 @@ function BurgerConstructor() {
                     )}
                 </li>
                 <li className='pl-8' ref={dropBottomBunTarget}>
-                    {!!bunItem.name ? (
+                    {!!bunItem ? (
                         <ConstructorElement
                             isLocked={true}
                             type='bottom'
@@ -132,7 +159,7 @@ function BurgerConstructor() {
             <div className={
                 `${burgerConstructorStyles.burger_constructor_order}
                     mr-4 mb-10
-                    ${!bunItem.name ? burgerConstructorStyles.disabled : null}`
+                    ${!bunItem ? burgerConstructorStyles.disabled : null}`
             }
             >
                 <p className='text text_type_digits-medium'>
@@ -145,11 +172,21 @@ function BurgerConstructor() {
                     htmlType="button"
                     type="primary"
                     size="medium"
-                    onClick={bunItem.name ? onOrderButtonClick : null}
+                    onClick={bunItem ? onOrderButtonClick : null}
                 >
                     Оформить заказ
                 </Button>
             </div>
+
+            {
+                isOrderModalOpen && (
+                    <Modal
+                        header={null}
+                        closeModal={closeAllModals}
+                        isFancyCloseIcon >
+                        <OrderDetails orderData={orderData} />
+                    </Modal>
+                )}
         </>
     );
 }
