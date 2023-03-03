@@ -7,9 +7,9 @@ import { ingredientSlice } from '../../services/slices/ingredient';
 import { burgerConstructorSlice } from '../../services/slices/burger-constructor';
 import { itemsSlice } from '../../services/slices/items';
 import { ingredientSimplifiedType3 } from "../../utils/prop-types";
+import {BUN} from "../../utils/constants";
 
 const BurgerIngredientsCard = memo((props) => {
-    console.log("AAA, BurgerIngredientsCard, props: "+JSON.stringify(props));
     const dispatch = useDispatch();
     const { openIngredientModal } = ingredientSlice.actions;
     const { increaseQuantityValue } = itemsSlice.actions;
@@ -27,7 +27,7 @@ const BurgerIngredientsCard = memo((props) => {
         }),
         end(item, monitor) {
             // adding only new ingredients, not when reorder items in Constructor
-            if(monitor.didDrop() && item.type !== 'bun') {
+            if(monitor.didDrop() && item.type !== `${BUN}`) {
                 dispatch(addMiddleItem(item));
                 dispatch(increaseQuantityValue(item._id));
             }
