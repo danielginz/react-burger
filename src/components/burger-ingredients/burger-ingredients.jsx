@@ -43,21 +43,6 @@ function BurgerIngredients() {
 
     const inViewOptions = {
         threshold: 0,
-        onChange: (inView) => {
-            if (inView) {
-                console.log("AAA, inView: " + inView);
-                if (inViewBun) {
-                    console.log("AAA, inViewBun: " + inViewBun);
-                    setCurrent(`${BUN}`);
-                } else if (inViewSauce) {
-                    console.log("AAA, inViewSauce: " + inViewSauce);
-                    setCurrent(`${SAUCE}`);
-                } else if (inViewMain) {
-                    console.log("AAA, inViewMain: " + inViewMain);
-                    setCurrent(`${MAIN}`);
-                }
-            }
-        },
         trackVisibility: true,
         delay: 100
     };
@@ -65,7 +50,7 @@ function BurgerIngredients() {
     const [mainRef, inViewMain] = useInView(inViewOptions);
     const [sauceRef, inViewSauce] = useInView(inViewOptions);
 
-    /*useEffect(() => {
+    useEffect(() => {
         if (inViewBun) {
             setCurrent(`${BUN}`);
         }
@@ -75,7 +60,7 @@ function BurgerIngredients() {
         else if (inViewMain) {
             setCurrent(`${MAIN}`);
         }
-    }, [inViewBun, inViewMain, inViewSauce]);*/
+    }, [inViewBun, inViewMain, inViewSauce]);
 
     const closeAllModals = () => {
         dispatch(closeOrderModal());
