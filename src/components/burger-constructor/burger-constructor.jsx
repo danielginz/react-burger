@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useDrop } from 'react-dnd';
 import {BUN, MAIN, SAUCE} from '../../utils/constants';
@@ -16,10 +16,10 @@ import {ingredientSlice} from "../../services/slices/ingredient";
 
 function BurgerConstructor() {
     const dispatch = useDispatch();
-    const { actions } = itemsSlice.actions;
+    const { actions } = itemsSlice;
 
-    const { setBunItem/*, calcTotalPrice*/ } = burgerConstructorSlice.actions
-    const { bunItem, middleItems/*, totalPrice*/ } = useSelector(state => state.burgerConstructor);
+    const { setBunItem } = burgerConstructorSlice.actions
+    const { bunItem, middleItems } = useSelector(state => state.burgerConstructor);
 
     const { closeOrderModal } = orderSlice.actions;
     const { closeIngredientModal } = ingredientSlice.actions;
@@ -30,17 +30,23 @@ function BurgerConstructor() {
         dispatch(placeOrder(items));
     };
 
-    /*useEffect(() => {
-        dispatch(calcTotalPrice());
-    }, [dispatch, bunItem, middleItems, calcTotalPrice]);*/
-
-
     const handleBunItemDrop = (newBunItem) => {
         dispatch(setBunItem(newBunItem));
-        dispatch(actions.decreaseQuantityValue(bunItem._id));
-        dispatch(actions.decreaseQuantityValue(bunItem._id));
+
+        /*{
+        !!bunItem && !!bunItem._id && (
+            dispatch(actions.decreaseQuantityValue(bunItem._id))
+            dispatch(actions.decreaseQuantityValue(bunItem._id))
+        )}*/
+
+        if(bunItem !== null && bunItem._id !== undefined) {
+            dispatch(actions.decreaseQuantityValue(bunItem._id));
+            dispatch(actions.decreaseQuantityValue(bunItem._id));
+        }
+
         dispatch(actions.increaseQuantityValue(newBunItem._id));
         dispatch(actions.increaseQuantityValue(newBunItem._id));
+
     };
 
     const [, dropTopBunTarget] = useDrop({
