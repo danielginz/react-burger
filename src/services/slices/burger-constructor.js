@@ -4,8 +4,7 @@ export const burgerConstructorSlice = createSlice({
     name: 'burgerConstructor',
     initialState: {
         bunItem: null,
-        middleItems: []/*,
-        totalPrice: 0*/
+        middleItems: []
     },
     reducers: {
         setBunItem(state, action) {
@@ -23,19 +22,6 @@ export const burgerConstructorSlice = createSlice({
         },
         clearMiddleItems(state) {
             state.middleItems = [];
-        }/*,
-        calcTotalPrice(state) {
-            !!state.bunItem ? (
-                // there are 2 types of bun only:
-                state.totalPrice = state.bunItem.price * 2 + state.middleItems.reduce(
-                    (acc, p) => acc + p.price, 0
-                )
-            ) : ( state.middleItems.length ? (
-                    state.totalPrice = state.middleItems.reduce((acc, p) => acc + p.price, 0)
-                ) : (
-                    state.totalPrice = 0
-                )
-            );
-        }*/
+        }
     }
 })
