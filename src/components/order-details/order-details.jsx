@@ -4,7 +4,7 @@ import orderAcceptedImage from '../../images/order-accepted.gif'
 
 
 const ORDER_ID = '034536';
-function OrderDetails(props) {
+function OrderDetails() {
     return(
         <div className={orderDetailsStyles.order_details_container + ' mt-20 mb-15'}>
             <p className={orderDetailsStyles.order_id + ' text text_type_digits-large'}>

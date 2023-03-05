@@ -1,113 +1,61 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import { useEffect } from 'react';
+import appStyles from './app.module.css';
 import AppHeader from '../app-header/app-header';
 import BurgerConstructor from '../burger-constructor/burger-constructor.jsx';
 import BurgerIngredients from '../burger-ingredients/burger-ingredients';
-import Modal from '../modal/modal';
-import OrderDetails from '../order-details/order-details';
-import IngredientDetails from '../ingredient-details/ingredient-details';
-import appStyles from './app.module.css';
-
-import { NORMA_API } from '../../utils/burger-api';
+import { useSelector, useDispatch } from "react-redux";
+import { getItems } from '../../services/slices/items';
+import { HTML5Backend } from 'react-dnd-html5-backend';
+import { DndProvider } from 'react-dnd';
 
 function App() {
+    const dispatch = useDispatch();
 
-    const [ingredientsData, setIngredientsData] = useState({
-        items: [],
-        isLoading: false,
-        hasLoaded: false,
-        hasError: false
-    });
-    const [isOrderModalOpen, setIsOrderModalOpen] = useState(false);
-    const [isIngredientModalOpen, setIsIngredientModalOpen] = useState(false);
-    const [selectedItem, setSelectedItem] = useState(null);
+    const {
+        itemsRequest,
+        itemsSuccess,
+        itemsFailed
+    } = useSelector(
+        state => state.items
+    );
 
     useEffect(() => {
-        const getIngredientsData = () => {
-            setIngredientsData({...ingredientsData, isLoading: true, hasError: false, hasLoaded: false})
-            fetch(`${NORMA_API}/ingredients`)
-                .then(res => {
-                    if (!res.ok) {
-                        res.reject(res.statusText);
-                    }
-                    return res.json();
-                })
-                .then(({data}) => {
-                    setIngredientsData({ ...ingredientsData, items: data, isLoading: false, hasLoaded: true, hasError: false })
-                })
-                .catch((error) => {
-                    console.log(error);
-                    setIngredientsData({ ...ingredientsData, isLoading: false, hasError: true, hasLoaded: false })
-                })}
-        getIngredientsData();
-    }, []);
-
-    const closeOrderDetailsModal = () => {
-        setIsOrderModalOpen(false);
-    };
-
-    const closeIngredientDetailsModal = () => {
-        setIsIngredientModalOpen(false);
-    };
-
-    const openOrderModal = () => {
-        setIsOrderModalOpen(true);
-    };
-
-    const openIngredientModal = (clickedItemId) => {
-        const clickedItems = ingredientsData.items.filter(item => (item._id === clickedItemId));
-        setSelectedItem(clickedItems[0]);
-        setIsIngredientModalOpen(true);
-    }
+        dispatch(getItems())
+    }, [dispatch]);
 
     return (
         <>
             <AppHeader />
             {
-                ingredientsData.hasError &&
-                !ingredientsData.isLoading &&
-                !ingredientsData.hasLoaded && (
+                itemsFailed &&
+                !itemsRequest &&
+                !itemsSuccess && (
                     <h2 className={appStyles.fullscreen_message + ' text text_type_main-large text_color_inactive'}>
                         Ошибка загрузки
                     </h2>
                 )}
             {
-                ingredientsData.isLoading &&
-                !ingredientsData.hasError &&
-                !ingredientsData.hasLoaded && (
+                itemsRequest &&
+                !itemsFailed &&
+                !itemsSuccess && (
                     <h2 className={appStyles.fullscreen_message + ' text text_type_main-large text_color_inactive'}>
                         Загрузка...
                     </h2>
                 )}
             {
-                ingredientsData.hasLoaded &&
-                !ingredientsData.hasError &&
-                !ingredientsData.isLoading && (
+                itemsSuccess &&
+                !itemsFailed &&
+                !itemsRequest && (
                     <div className={appStyles.container}>
-                        <section className={appStyles.container_left + ' mr-5'}>
-                            <BurgerIngredients items={ingredientsData.items}
-                               onIngredientClick={openIngredientModal} />
-                        </section>
-                        <section className={appStyles.container_right + ' ml-5'}>
-                            <BurgerConstructor items={ingredientsData.items} onOrderButtonClick={openOrderModal} />
-                        </section>
+                        <DndProvider backend={HTML5Backend}>
+                            <section className={appStyles.container_left + ' mr-5'}>
+                                <BurgerIngredients />
+                            </section>
+                            <section className={appStyles.container_right + ' ml-5'}>
+                                <BurgerConstructor />
+                            </section>
+                        </DndProvider>
                     </div>
-                )}
-            {
-                isOrderModalOpen && (
-                    <Modal
-                        header={null}
-                        closeModal={closeOrderDetailsModal}
-                        isFancyCloseIcon >
-                        <OrderDetails item={selectedItem}/>
-                    </Modal>
-                )}
-            {
-                isIngredientModalOpen && (
-                    <Modal
-                        header='Детали ингредиента'
-                        closeModal={closeIngredientDetailsModal} >
-                        <IngredientDetails item={selectedItem} />
-                    </Modal>
                 )}
         </>
     );
