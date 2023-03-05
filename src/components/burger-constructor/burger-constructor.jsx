@@ -33,13 +33,8 @@ function BurgerConstructor() {
     const handleBunItemDrop = (newBunItem) => {
         dispatch(setBunItem(newBunItem));
 
-        /*{
-        !!bunItem && !!bunItem._id && (
-            dispatch(actions.decreaseQuantityValue(bunItem._id))
-            dispatch(actions.decreaseQuantityValue(bunItem._id))
-        )}*/
-
-        if(bunItem !== null && bunItem._id !== undefined) {
+        //if(bunItem !== null && bunItem._id !== undefined) {
+        if(bunItem?._id) {
             dispatch(actions.decreaseQuantityValue(bunItem._id));
             dispatch(actions.decreaseQuantityValue(bunItem._id));
         }
