@@ -38,3 +38,12 @@ export const ingredientSimplifiedType3 = PropTypes.shape({
     price: PropTypes.number.isRequired,
     image: PropTypes.string.isRequired
 });
+
+export const ingredientSimplifiedType4 = PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    image_large: PropTypes.string.isRequired,
+    calories: PropTypes.number.isRequired,
+    proteins: PropTypes.number.isRequired,
+    fat: PropTypes.number.isRequired,
+    carbohydrates: PropTypes.number.isRequired
+});

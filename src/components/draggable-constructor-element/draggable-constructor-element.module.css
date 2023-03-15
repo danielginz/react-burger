@@ -15,18 +15,9 @@
   margin-right: calc(var(--offset-base-size) * 2);
 }
 
-.flex_row {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-}
-
-
 .draggable_list_item {
   /* transition: padding 0.2s ease-in-out 0.1s; */
-  /*composes: flex_row from global;*/
-  composes: flex_row;
+  composes: flex_row from global;
   scroll-snap-align: start;
   justify-content: flex-start;
   transition: opacity 0.2s ease-in-out;

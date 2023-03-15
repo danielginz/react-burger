@@ -1,25 +1,10 @@
-.flex_row {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-}
-
-.flex_column {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-}
-
 .ingredient_card {
-    composes: flex_column;
+    composes: flex_column from global;
+    cursor: pointer;
+    /* flex-basis: 272px; */
     flex-basis: 50%;
+    /* for correct positioning of Counter:*/
     position: relative;
-}
-
-.ingredient_price {
-    composes: flex_row;
 }
 
 .ingredient_image {

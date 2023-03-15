@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import modalStyles from './modal.module.css';
 import ModalOverlay from '../modal-overlay/modal-overlay';
@@ -8,8 +8,9 @@ import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 const modalRoot = document.getElementById('modal-root');
 
 function Modal({ children, header, closeModal, isFancyCloseIcon=false }) {
+
     const handleEscKey = (e) => {
-        if (e.key === 'Escape')
+        if (e.key === 'Escape') 
             closeModal();
         e.stopImmediatePropagation();
     }
@@ -19,7 +20,7 @@ function Modal({ children, header, closeModal, isFancyCloseIcon=false }) {
         return () => {
             document.removeEventListener('keydown', handleEscKey);
         };
-    }, []);
+    }, []); 
 
     return ReactDOM.createPortal(
         <>
@@ -33,7 +34,7 @@ function Modal({ children, header, closeModal, isFancyCloseIcon=false }) {
                 </span>
                 {children}
             </div>
-        </>,
+        </>, 
         modalRoot
     );
 }

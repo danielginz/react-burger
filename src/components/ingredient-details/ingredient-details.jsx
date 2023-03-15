@@ -1,15 +1,15 @@
-import React from 'react';
+import PropTypes from 'prop-types';
 import ingredientDetailsStyles from './ingredient-details.module.css';
-import {ingredientType} from "../../utils/prop-types";
+import {ingredientSimplifiedType4, ingredientType} from "../../utils/prop-types";
 
 function IngredientDetails(props) {
     return(
         <div className={ingredientDetailsStyles.ingredient_details_container}>
-            <img
+             <img 
                 src={props.item.image_large}
                 alt={props.item.name}
                 title={props.item.name}
-            />
+            />           
             <h4 className='text text_type_main-medium mt-4 mb-8'>
                 {props.item.name}
             </h4>
@@ -52,7 +52,7 @@ function IngredientDetails(props) {
 }
 
 IngredientDetails.propTypes = {
-    item: ingredientType.isRequired
+    item: ingredientSimplifiedType4.isRequired
 };
 
 export default IngredientDetails;

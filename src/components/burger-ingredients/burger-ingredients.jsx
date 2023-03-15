@@ -1,31 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import {useDispatch, useSelector} from 'react-redux';
+import { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import { useInView } from 'react-intersection-observer';
-
 import burgerIngredientsStyles from './burger-ingredients.module.css';
 import BurgerIngredientsCategory from '../burger-ingredients-category/burger-ingredients-category';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
-import Modal from "../modal/modal";
-import IngredientDetails from "../ingredient-details/ingredient-details";
-import {orderSlice} from "../../services/slices/order";
-import {ingredientSlice} from "../../services/slices/ingredient";
-
 import {BUN, MAIN, SAUCE} from '../../utils/constants';
 
 function BurgerIngredients() {
     const [current, setCurrent] = useState(`${BUN}`)
-
     const { items } = useSelector(state => state.items);
-
-    const dispatch = useDispatch();
-    const { closeOrderModal } = orderSlice.actions;
-    const { closeIngredientModal } = ingredientSlice.actions;
-
-    const {
-        selectedIngredient
-    } = useSelector(
-        state => state.ingredient
-    );
 
     const setTab = (tabName) => {
         setCurrent(tabName);
@@ -40,7 +23,7 @@ function BurgerIngredients() {
     const handleMainTabClick = () => {
         setTab(`${MAIN}`);
     };
-
+    
     const inViewOptions = {
         threshold: 0,
         trackVisibility: true,
@@ -52,20 +35,15 @@ function BurgerIngredients() {
 
     useEffect(() => {
         if (inViewBun) {
-            setCurrent(`${BUN}`);
+          setCurrent(`${BUN}`);
         }
         else if (inViewSauce) {
-            setCurrent(`${SAUCE}`);
-        }
+          setCurrent(`${SAUCE}`);
+        } 
         else if (inViewMain) {
-            setCurrent(`${MAIN}`);
-        }
-    }, [inViewBun, inViewMain, inViewSauce]);
-
-    const closeAllModals = () => {
-        dispatch(closeOrderModal());
-        dispatch(closeIngredientModal());
-    };
+          setCurrent(`${MAIN}`);
+        } 
+      }, [inViewBun, inViewMain, inViewSauce]);
 
     return(
         <>
@@ -92,38 +70,28 @@ function BurgerIngredients() {
                     Начинки
                 </Tab>
             </div>
-            <div
-                className={burgerIngredientsStyles.scroll_container}
+            <div 
+                className={burgerIngredientsStyles.scroll_container} 
             >
-                <BurgerIngredientsCategory
+                <BurgerIngredientsCategory 
                     heading="Булки"
                     categoryId='bun'
-                    items={items.filter(item => item.type === `${BUN}`)}
+                    items={items.filter(item => item.type === 'bun')}
                     ref={bunRef}
                 />
-                <BurgerIngredientsCategory
+                <BurgerIngredientsCategory 
                     heading="Соусы"
-                    categoryId='sauce'
-                    items={items.filter(item => item.type === `${SAUCE}`)}
+                    categoryId='sauce' 
+                    items={items.filter(item => item.type === 'sauce')}
                     ref={sauceRef}
                 />
-                <BurgerIngredientsCategory
+                <BurgerIngredientsCategory 
                     heading="Начинки"
                     categoryId='main'
-                    items={items.filter(item => item.type === `${MAIN}`)}
+                    items={items.filter(item => item.type === 'main')}
                     ref={mainRef}
                 />
             </div>
-
-            {
-                selectedIngredient.name !== undefined && (
-                    <Modal
-                        header='Детали ингредиента'
-                        closeModal={closeAllModals} >
-                        <IngredientDetails item={selectedIngredient} />
-                    </Modal>
-                )}
-
         </>
     );
 }
