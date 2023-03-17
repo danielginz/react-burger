@@ -1,0 +1,57 @@
+.burger_constructor_list {
+    composes: flex_column from global;
+    gap: 10px;
+    align-items: stretch;
+}
+
+/* bg color of elements as in Figma */
+.burger_constructor_list li div {
+    background: var(--background);
+}
+
+.burger_constructor_draggable_list {
+    composes: burger_constructor_list;
+    composes: scroll from global;
+    scroll-snap-type: y proximity;
+
+    /* scrollbar compensation */
+    position: relative;
+    margin-left: calc(var(--offset-base-size) * -4);
+    left: calc(var(--offset-base-size) * 4);
+
+    /* to calculate height of the scrollable container we exclude height of top and bottom parts of a page
+    (for desktop it's 284px + 252px = 536px) */
+    max-height: calc(100vh - 536px);
+
+    justify-content: flex-start; 
+}
+
+.burger_constructor_order {
+    composes: flex_row from global;
+    justify-content: flex-end;
+
+}
+
+.burger_constructor_order svg {
+    width: 33px;
+    height: auto;
+}
+
+:global(.constructor-element__text) {
+    /* оne-line ingredient name positioning issues */
+    min-height: 48px;
+    /* TODO: rewrite for responsivity @ <1280px ! */
+    width: 254px;
+} 
+
+.warningText {
+    text-align: center;
+}
+
+.emptyBun {
+    width: 100%;
+}
+
+.disabled {
+    opacity: 0.5;
+}
