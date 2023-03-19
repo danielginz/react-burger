@@ -1,0 +1,39 @@
+.tab_selector {
+    composes: flex_row from global;
+    justify-content: flex-end;
+}
+
+.scroll_container {
+    composes: scroll from global;
+    /* height: 73vh; */
+    /* need to calculate height of top part of a page (for desktop it's 244px) */
+    height: calc(100vh - 244px);
+}
+
+
+
+
+
+
+
+/*.My_link:link {
+    color: #fff;
+    font-size: 1.6rem;
+    line-height: 1.6rem;
+    text-decoration: none;
+}
+.My_link:visited {
+    color: #fff;
+}
+.My_link:hover {
+    color: yellow;
+}
+.My_link:active {
+    color: teal;
+}
+
+.activeRoute {
+    background-color: yellow;
+    border-bottom: 0.4rem solid teal;
+    cursor: not-allowed;
+}*/
