@@ -16,7 +16,8 @@ export const ResetPasswordPage = () => {
   const {
     userRequest,
     userSuccess,
-    userFailed
+    userFailed,
+    isResetPassword
   } = useSelector(
     state => state.user
   );
@@ -136,7 +137,7 @@ export const ResetPasswordPage = () => {
             </div>
         )}
         {
-          !userFailed && (
+          !userFailed && !isResetPassword && (
           <Form
             title='Восстановление пароля'
             actionName='Сохранить'
