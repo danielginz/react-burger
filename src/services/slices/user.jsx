@@ -417,7 +417,8 @@ export const userSlice = createSlice({
     userRequest: false,
     userFailed: false,
     userSuccess: false,
-    isAuthorized: false
+    isAuthorized: false,
+    isResetPassword: false
   },
   reducers: {
     request(state) {
@@ -461,6 +462,7 @@ export const userSlice = createSlice({
     },
     resetStatus(state, action) {
       state.userFailed = false;
+      state.isResetPassword = true;
     },
     resetUserData(state) {
       state.user.name = '';
