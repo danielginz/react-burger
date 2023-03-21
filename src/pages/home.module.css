@@ -1,8 +1,0 @@
-.container {
-    composes: flex_row from global;
-    align-items: flex-start;
-}
-
-.container_left, .container_right {
-    flex-basis: 600px;
-}
