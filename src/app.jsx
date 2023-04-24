@@ -79,9 +79,9 @@ function App() {
               <Route
                   path={INGRIDIENTS_ID}
                   element={
-                    <Modal>
+                    /*<Modal>*/
                       <IngredientModalPage />
-                    </Modal>
+                   /* </Modal>*/
                   }
               />
             </Routes>
