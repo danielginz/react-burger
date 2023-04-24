@@ -1,23 +1,89 @@
-import React from 'react';
 import appHeaderStyles from './app-header.module.css';
 import MenuItem from '../menu-item/menu-item';
 import { Logo, BurgerIcon, ListIcon, ProfileIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import { useState, useEffect } from 'react';
+import { useNavigate } from "react-router-dom";
+import {FEED, PROFILE} from "../../utils/routes-constants";
 
 function AppHeader() {
+    const [isHomePage, setHomePage] = useState(false);
+    const [isFeedPage, setFeedPage] = useState(false);
+    const [isProfilePage, setProfilePage] = useState(false);
+    const navigate = useNavigate();
+
+    const currentUrl = window.location.pathname
+
+    useEffect(() => {
+        switch (currentUrl.split('/')[1]) {
+            case '':
+                setHomePage(true);
+                break;
+            case 'feed':
+                setFeedPage(true);
+                break;
+            case 'profile':
+                setProfilePage(true);
+                break;
+            default:
+                break;
+        }
+    }, [currentUrl]);
+
+    const onConstructorClick = () => {
+        navigate("/");
+    };
+
+    const onFeedClick = () => {
+        navigate(FEED);
+    };
+    const onProfileClick = () => {
+        navigate(PROFILE);
+    };
+
     return(
         <header>
             <nav className={appHeaderStyles.menu_container}>
                 <ul className={appHeaderStyles.menu_list}>
-                    <ul className={appHeaderStyles.menu_list_left}>
-                        <MenuItem icon={<BurgerIcon type="primary" />} text="Конструктор" link="#" active/>
-                        <MenuItem icon={<ListIcon type="secondary" />} text="Лента заказов" link="#" />
-                    </ul>
+                    <li className={appHeaderStyles.menu_list_left}>
+                        <ul className={appHeaderStyles.menu_list_left_items}>
+                            <li>
+                                <MenuItem
+                                    icon={
+                                        <BurgerIcon type={isHomePage ? "primary" : "secondary"} />
+                                    }
+                                    text="Конструктор"
+                                    onClick={onConstructorClick}
+                                    active={isHomePage}
+                                />
+                            </li>
+                            <li>
+
+                                <MenuItem
+                                    icon={
+                                        <ListIcon type={isFeedPage ? "primary" : "secondary"} />
+                                    }
+                                    text="Лента заказов"
+                                    onClick={onFeedClick}
+                                    active={isFeedPage}
+                                />
+                            </li>
+                        </ul>
+                    </li>
                     <li className={appHeaderStyles.menu_list_center}>
                         <Logo />
                     </li>
-                    <span className={appHeaderStyles.menu_list_right}>
-                        <MenuItem icon={<ProfileIcon type="secondary" />} text="Личный кабинет" link="#" />
-                    </span>
+                    <li className={appHeaderStyles.menu_list_right}>
+                        <span>
+                            <MenuItem
+                                icon={
+                                    <ProfileIcon type={isProfilePage ? "primary" : "secondary"} />
+                                }
+                                text="Личный кабинет"
+                                onClick={onProfileClick}
+                                active={isProfilePage}
+                            />
+                        </span>
+                    </li>
                 </ul>
             </nav>
         </header>

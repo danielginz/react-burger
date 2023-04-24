@@ -1,27 +1,6 @@
-.card_box_shadow {
-    box-shadow: 0px 24px 32px rgba(0, 0, 0, 0.04),
-    0px 16px 24px rgba(0, 0, 0, 0.04),
-    0px 4px 8px rgba(0, 0, 0, 0.04),
-    0px 0px 1px rgba(0, 0, 0, 0.04);
-}
-
-.flex_row {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-}
-
-.flex_column {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-}
-
 .modal_container {
-    composes: card_box_shadow ;
-    composes: flex_column;
+    composes: card_box_shadow from global;
+    composes: flex_column from global;
 
     position: absolute;
     top: 50%;
@@ -30,14 +9,14 @@
 
     box-sizing: border-box;
     width: 720px;
-
+    
     background: var(--background);
     border: 1px solid rgba(76, 76, 255, 0.2);
     border-radius: 40px;
 }
 
 .modal_header {
-    composes: flex_row;
+    composes: flex_row from global;
     align-self: flex-start;
     height: 64px;
 }

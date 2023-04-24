@@ -6,7 +6,7 @@ import draggableConstructorElementStyles from './draggable-constructor-element.m
 import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { burgerConstructorSlice } from '../../services/slices/burger-constructor';
 import { itemsSlice } from '../../services/slices/items';
-import { ingredientSimplifiedType2 } from "../../utils/prop-types";
+import {ingredientSimplifiedType2} from "../../utils/prop-types";
 
 function DraggableConstructorElement({ item, index }) {
   const dispatch = useDispatch();
@@ -91,6 +91,7 @@ dragItemSource(dropItemTarget(dndItemRef))
       </>
   )
 }
+
 export default DraggableConstructorElement
 
 DraggableConstructorElement.propTypes = {

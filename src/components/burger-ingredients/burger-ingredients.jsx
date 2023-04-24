@@ -1,25 +1,26 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import { useInView } from 'react-intersection-observer';
-
 import burgerIngredientsStyles from './burger-ingredients.module.css';
 import BurgerIngredientsCategory from '../burger-ingredients-category/burger-ingredients-category';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
-import Modal from "../modal/modal";
-import IngredientDetails from "../ingredient-details/ingredient-details";
+import {BUN, MAIN, SAUCE} from '../../utils/constants';
 import {orderSlice} from "../../services/slices/order";
 import {ingredientSlice} from "../../services/slices/ingredient";
+import Modal from "../modal/modal";
+import IngredientDetails from "../ingredient-details/ingredient-details";
 
-import {BUN, MAIN, SAUCE} from '../../utils/constants';
+import { useLocation } from "react-router-dom";
 
 function BurgerIngredients() {
     const [current, setCurrent] = useState(`${BUN}`)
-
     const { items } = useSelector(state => state.items);
 
     const dispatch = useDispatch();
     const { closeOrderModal } = orderSlice.actions;
     const { closeIngredientModal } = ingredientSlice.actions;
+
+    //let { state } = useLocation();
 
     const {
         selectedIngredient
@@ -98,19 +99,19 @@ function BurgerIngredients() {
                 <BurgerIngredientsCategory
                     heading="Булки"
                     categoryId='bun'
-                    items={items.filter(item => item.type === `${BUN}`)}
+                    items={items.filter(item => item.type === 'bun')}
                     ref={bunRef}
                 />
                 <BurgerIngredientsCategory
                     heading="Соусы"
                     categoryId='sauce'
-                    items={items.filter(item => item.type === `${SAUCE}`)}
+                    items={items.filter(item => item.type === 'sauce')}
                     ref={sauceRef}
                 />
                 <BurgerIngredientsCategory
                     heading="Начинки"
                     categoryId='main'
-                    items={items.filter(item => item.type === `${MAIN}`)}
+                    items={items.filter(item => item.type === 'main')}
                     ref={mainRef}
                 />
             </div>
@@ -123,7 +124,7 @@ function BurgerIngredients() {
                         <IngredientDetails item={selectedIngredient} />
                     </Modal>
                 )}
-
+            {/* </Link>*/}
         </>
     );
 }
