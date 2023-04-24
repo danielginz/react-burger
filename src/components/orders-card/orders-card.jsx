@@ -29,40 +29,50 @@ const OrdersCard = (props) => {
 
   const renderIngredientIcons = useCallback(() => (
      props.order.ingredients.map((item_id, index) => {
+      console.log("AAA, order-card: item_id: "+item_id);
+      //console.log("AAA, order-card: index: "+index);
       const ingredient = items.find(item => item._id === item_id);
+      console.log("AAA, order-card: items: "+JSON.stringify(items));
+      console.log("AAA, order-card: props.order.ingredients: "+JSON.stringify(props.order.ingredients));
       
       const ingredientsToShow = 5;
       if (index > ingredientsToShow) return null;
 
-      return (
-        <li key={item_id+index}>
-          <span 
-            className={ordersCardStyles.ingredient_icon_wrapper}
-            style={{ zIndex: 10 - index }}
+       if (ingredient != undefined) {//TODO check why image_mobile is undefined
+         return (
+             <li key={item_id + index}>
+          <span
+              className={ordersCardStyles.ingredient_icon_wrapper}
+              style={{zIndex: 10 - index}}
           >
-            <img 
-              src={ingredient.image_mobile}
-              alt={ingredient.name}
-              title={ingredient.name}
-              width='112px'
-              className='ingredient_icon'
+            <img
+                src={ingredient.image_mobile}
+                alt={ingredient.name}
+                title={ingredient.name}
+                width='112px'
+                className='ingredient_icon'
             />
           </span>
-          {index === ingredientsToShow ? (
-            <span
-              className={ordersCardStyles.more_ingredients_icon}
-            >
+               {index === ingredientsToShow ? (
+                   <span
+                       className={ordersCardStyles.more_ingredients_icon}
+                   >
               <p className={
-                ordersCardStyles.more_icon_text +
-                ' text text_type_main-default'
+                  ordersCardStyles.more_icon_text +
+                  ' text text_type_main-default'
               }>
                 +{props.order.ingredients.length - ingredientsToShow}
               </p>
               <span className={ordersCardStyles.more_icon_wrapper}></span>
             </span>
-          ) : null}
-        </li>
-      );
+               ) : null}
+             </li>
+         );
+       } /*else {
+           return (
+            <></>
+          );
+       }*/
     })
   ), [items, props.order.ingredients]);
 
