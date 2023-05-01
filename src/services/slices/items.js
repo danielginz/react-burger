@@ -13,14 +13,7 @@ export const getItems = () => {
       })
       .then(({data}) => {
         dispatch(itemsSlice.actions.success(data));
-        /*data.forEach(ingridient => {
-          ingridient = { ...ingridient, quantity: 0};
-          console.log("AAA, ingridient: "+JSON.stringify(ingridient));
-        })*/
         dispatch(itemsSlice.actions.clearValues(data));
-        //dispatch(data.clearValues([]));
-
-        console.log("AAA, ingridient 111: "+JSON.stringify(data));
       })
       .catch((error) => {
         console.log(error);
