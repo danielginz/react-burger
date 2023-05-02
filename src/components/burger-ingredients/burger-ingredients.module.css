@@ -1,0 +1,10 @@
+.tab_selector {
+    composes: flex_row from global;
+    justify-content: flex-end;
+}
+
+.scroll_container {
+    composes: scroll from global;
+    height: calc(100vh - 244px);
+}
+
