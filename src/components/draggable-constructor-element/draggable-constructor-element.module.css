@@ -16,7 +16,6 @@
 }
 
 .draggable_list_item {
-  /* transition: padding 0.2s ease-in-out 0.1s; */
   composes: flex_row from global;
   scroll-snap-align: start;
   justify-content: flex-start;
@@ -25,7 +24,6 @@
 }
 
 .dragged {
-  /* display: none; */
   transition: all 0.2s ease-in-out;
   opacity: 0.25;
   padding: 0 !important;

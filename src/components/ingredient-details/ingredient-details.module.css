@@ -7,7 +7,6 @@
     composes: flex_row from global;
     justify-content: space-between;
     width: 520px;
-    /* ? */
     column-gap: 20px;
 }
 

@@ -5,8 +5,6 @@
 
 .scroll_container {
     composes: scroll from global;
-    /* height: 73vh; */
-    /* need to calculate height of top part of a page (for desktop it's 244px) */
     height: calc(100vh - 244px);
 }
 

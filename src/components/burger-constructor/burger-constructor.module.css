@@ -4,7 +4,6 @@
     align-items: stretch;
 }
 
-/* bg color of elements as in Figma */
 .burger_constructor_list li div {
     background: var(--background);
 }
@@ -14,13 +13,10 @@
     composes: scroll from global;
     scroll-snap-type: y proximity;
 
-    /* scrollbar compensation */
     position: relative;
     margin-left: calc(var(--offset-base-size) * -4);
     left: calc(var(--offset-base-size) * 4);
 
-    /* to calculate height of the scrollable container we exclude height of top and bottom parts of a page
-    (for desktop it's 284px + 252px = 536px) */
     max-height: calc(100vh - 536px);
 
     justify-content: flex-start; 
@@ -38,9 +34,7 @@
 }
 
 :global(.constructor-element__text) {
-    /* оne-line ingredient name positioning issues */
     min-height: 48px;
-    /* TODO: rewrite for responsivity @ <1280px ! */
     width: 254px;
 } 
 
