@@ -1,0 +1,84 @@
+.container {
+    max-width: 600px;
+    width: 100%;
+}
+
+.tabs {
+    display: flex;
+    margin-bottom: 40px;
+}
+
+.tab {
+    flex-grow: 1;
+    color: #8585AD;
+    padding: 16px 0;
+    text-decoration: none;
+    box-shadow: inset 0px -1px 0px #2F2F37;
+    text-align: center;
+    cursor: pointer;
+    transition: all .2s ease-in-out;
+}
+
+.tab_active {
+    color: #fff;
+    box-shadow: inset 0px -2px 0px #4C4CFF;
+}
+
+.scroll_container {
+    max-height: 564px;
+    overflow-y: scroll;
+    scroll-behavior: smooth;
+}
+
+.scroll_container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.scroll_container::-webkit-scrollbar-track {
+    background: #2F2F37;
+}
+
+.scroll_container::-webkit-scrollbar-thumb {
+    background: #8585AD;
+}
+
+.section_container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-column-gap: 24px;
+    padding: 0px 16px 40px;
+}
+
+.item_image {
+    max-width: 100%;
+    width: 100%;
+}
+
+.item_price {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.item_name {
+    text-align: center;
+}
+
+.item {
+    cursor: pointer;
+    position: relative;
+    text-decoration: none;
+    color: #fff;
+}
+
+.count {
+    height: 32px;
+    width: 32px;
+    border-radius: 100%;
+    background: #4C4CFF;
+    text-align: center;
+    line-height: 32px;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+}

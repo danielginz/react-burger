@@ -1,0 +1,58 @@
+.container {
+    max-width: 1280px;
+    width: 100%;
+    padding: 0 20px;
+    margin: 0 auto;
+    flex-grow: 1;
+    display: flex;
+}
+
+.ordersContainer{
+    width: 100%;
+}
+
+.sidebar {
+    width: 320px;
+}
+
+.chat {
+    text-decoration: none;
+    color: #8585AD;
+    display: block;
+    line-height: 64px;
+    cursor: pointer;
+}
+
+.orderCard{
+    width: 70%;
+}
+
+.card {
+    max-width: 480px;
+    width: 100%;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.card p {
+    color: #8585AD;
+}
+
+.card span {
+    text-decoration: none;
+    color: #4C4CFF;
+    cursor: pointer;
+}
+
+.input,
+.input div:not(input + div),
+.input input {
+    max-width: none;
+    width: 100%;
+}
+
+.active {
+    color: #fff;
+}
