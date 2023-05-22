@@ -2,7 +2,7 @@ import orderDetailsStyles from './order-details.module.css';
 import orderAcceptedImage from '../../images/order-accepted.gif'
 import Loader from '../loader/loader';
 import {FC} from "react";
-import {useSelector} from "react-redux";
+import { useAppSelector } from '../../services/hooks';
 
 const OrderDetails: FC = () => {
 
@@ -11,8 +11,7 @@ const OrderDetails: FC = () => {
         orderRequest,
         orderSuccess,
         orderFailed
-    } = useSelector(
-        // @ts-ignore
+    } = useAppSelector(
         state => state.order
     );
     return(

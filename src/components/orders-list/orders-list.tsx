@@ -15,8 +15,7 @@ const OrdersList: FC<IOrdersListProps> = (props) => {
         <ul className={ordersListStyles.orders_list}>
           {props.orders.map((order) => (
                   <OrdersCard
-                      // @ts-ignore
-                      key={order.id}
+                      key={order._id}
                       source={props.source}
                       order={order}
                   />

@@ -1,4 +1,4 @@
-import { useSelector } from "react-redux";
+import { useAppSelector } from '../../services/hooks';
 import feedInfoPanelStyles from './feed-info-panel.module.css';
 import {FC, useCallback} from 'react';
 import {IOrder} from "../../services/types";
@@ -6,19 +6,18 @@ import {IOrder} from "../../services/types";
 const FeedInfoPanel: FC = () => {
     const {
     orders
-  } = useSelector(
-     // @ts-ignore
+    } = useAppSelector(
     state => state.feed
   );
 
     const renderCompletedOrders = useCallback(() => (
     orders.map((order: IOrder) => (
-     order.status === 'Выполнен' ?
+     order.status === 'done' ?
       <li
         className='text text_type_digits-default'
-        key={order.id}
+        key={order._id}
       >
-        {order.id}
+          {order.number}
       </li>
       : null
     ))
@@ -26,11 +25,12 @@ const FeedInfoPanel: FC = () => {
 
   const renderPreparingOrders = useCallback(() => (
     orders.map((order: IOrder) => (
-     order.status === 'Готовится' ?
+        order.status === 'pending' ?
       <li
         className='text text_type_digits-default'
+        key={order._id}
       >
-        {order.id}
+          {order.number}
       </li>
       : null
     ))

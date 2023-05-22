@@ -1,5 +1,5 @@
 import {FC, useMemo} from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useAppSelector, useAppDispatch } from '../../services/hooks';
 import { useDrop } from 'react-dnd';
 import { useNavigate } from "react-router-dom";
 
@@ -15,21 +15,19 @@ import {LOGIN} from "../../utils/routes-constants";
 import { IIngredient } from '../../services/types';
 
 const BurgerConstructor: FC = () => {
-    const dispatch = useDispatch<any>();
+    const dispatch = useAppDispatch();
     const {increaseQuantityValue, decreaseQuantityValue} = itemsSlice.actions;
     const {setBunItem} = burgerConstructorSlice.actions
 
-    // @ts-ignore
-    const {bunItem, middleItems} = useSelector(state => state.burgerConstructor);
-    // @ts-ignore
-    const {isAuthorized} = useSelector(state => state.user);
+    const {bunItem, middleItems} = useAppSelector(state => state.burgerConstructor);
+
+    const { isAuthorized } = useAppSelector(state => state.user);
 
     const navigate = useNavigate();
 
     const onOrderButtonClick = () => {
         if (isAuthorized) {
             const items = [bunItem._id];
-            // @ts-ignore
             middleItems.map(item => items.push(item._id));
             dispatch(placeOrder(items));
         } else {
@@ -38,9 +36,11 @@ const BurgerConstructor: FC = () => {
     };
 
     const totalPrice = useMemo(() => {
-        if (bunItem !== null) {
-            // @ts-ignore
+        if (bunItem !== null && bunItem !== undefined && typeof bunItem.price === "number") {
+            // @ts-ignore, could be removed
             return bunItem.price * 2 + middleItems.reduce((acc, p) => acc + p.price, 0);
+        } else {
+            return "";
         }
 
     }, [middleItems, bunItem]);
@@ -79,12 +79,11 @@ const BurgerConstructor: FC = () => {
         Math.floor(Math.random() * 10000)
     );
 
-    // @ts-ignore
     return (
         <>
             <ul className={burgerConstructorStyles.burger_constructor_list + ' ml-4 mt-25 mb-10 pr-4'}>
                 <li className='pl-8' ref={dropTopBunTarget}>
-                    {(!!bunItem) ? (
+                    {(!!bunItem && bunItem.name !==undefined && bunItem.image !==undefined && bunItem.price !==undefined) ? (
                         <ConstructorElement
                             type='top'
                             isLocked={true}
@@ -132,7 +131,7 @@ const BurgerConstructor: FC = () => {
                     )}
                 </li>
                 <li className='pl-8' ref={dropBottomBunTarget}>
-                    {!!bunItem ? (
+                    {(!!bunItem && bunItem.name !==undefined && bunItem.image !==undefined && bunItem.price !==undefined) ? (
                         <ConstructorElement
                             isLocked={true}
                             type='bottom'

@@ -4,8 +4,7 @@ import { burgerConstructorSlice } from "./burger-constructor";
 import { orderSlice } from "./order";
 import { userSlice } from "./user";
 import { feedSlice } from "./feed";
-
-import { ingredientSlice } from "./ingredient";
+import {wsSlice} from "./websocket";
 
 const rootReducer = combineReducers(
   {
@@ -14,7 +13,7 @@ const rootReducer = combineReducers(
     burgerConstructor: burgerConstructorSlice.reducer,
     user: userSlice.reducer,
     feed: feedSlice.reducer,
-    ingredient: ingredientSlice.reducer
+    ws: wsSlice.reducer
   }
 )
 

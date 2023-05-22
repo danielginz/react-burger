@@ -7,12 +7,13 @@ import {FC, useEffect} from "react";
 export const ProtectedRoute: FC<RouteProps> = ({ element }) => {
   const dispatch = useDispatch();
 
+  const currentUrl = window.location.pathname
 
   const {
     isAuthorized
   } = useSelector(
       // @ts-ignore
-    state => state.user
+      state => state.user
   );
 
   const { checkAuthorization } = userSlice.actions;

@@ -1,5 +1,5 @@
 import {useRef, useEffect, useState, FC} from 'react';
-import { useDispatch } from 'react-redux';
+import { useAppDispatch } from '../../services/hooks';
 import { useDrag, useDrop } from 'react-dnd';
 import draggableConstructorElementStyles from './draggable-constructor-element.module.css';
 import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -15,7 +15,7 @@ const DraggableConstructorElement: FC<IDraggedItem> = ({
     item,
     index
     }) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { decreaseQuantityValue } = itemsSlice.actions;
   const { moveMiddleItem, deleteMiddleItem } = burgerConstructorSlice.actions
 
@@ -54,7 +54,9 @@ const DraggableConstructorElement: FC<IDraggedItem> = ({
 
   const handleItemDelete = (itemId: string | undefined, index: number) => {
     dispatch(deleteMiddleItem(index));
-    dispatch(decreaseQuantityValue(itemId));
+      if(itemId != undefined) {
+          dispatch(decreaseQuantityValue(itemId));
+      }
   };
 
   useEffect(() => {

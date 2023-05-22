@@ -5,21 +5,19 @@ import { Input, PasswordInput, Button } from '@ya.praktikum/react-developer-burg
 
 import { register, userSlice } from '../services/slices/user';
 
-import { useNavigate, useLocation } from 'react-router-dom';
-import {useDispatch, useSelector} from "react-redux";
+import { useNavigate } from 'react-router-dom';
+import { useAppSelector, useAppDispatch } from '../services/hooks';
 import {LOGIN} from "../utils/routes-constants";
 import formStyles from "../components/form/form.module.css";
 
 export const RegisterPage: FC = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
-  // @ts-ignore
   const {
     userRequest,
     userSuccess,
     userFailed
-  } = useSelector(
-      // @ts-ignore
+  } = useAppSelector(
       state => state.user
   );
   const { resetStatus } = userSlice.actions;
@@ -27,7 +25,6 @@ export const RegisterPage: FC = () => {
   const navigate = useNavigate();
 
   const resetError = (): void => {
-    // @ts-ignore
     dispatch(resetStatus());
   }
 
@@ -124,7 +121,6 @@ export const RegisterPage: FC = () => {
     }
     else {
       if (!userRequest) {
-        // @ts-ignore
         dispatch(register({
           name: nameValue,
           email: emailValue,
@@ -138,7 +134,6 @@ export const RegisterPage: FC = () => {
     navigate(LOGIN);
   }
 
-  // @ts-ignore
   return(
       <>
         {

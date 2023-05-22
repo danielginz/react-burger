@@ -5,7 +5,7 @@ import BurgerIngredients from '../components/burger-ingredients/burger-ingredien
 import Modal from '../components/modal/modal';
 import OrderDetails from '../components/order-details/order-details';
 import Loader from '../components/loader/loader';
-import { useSelector, useDispatch } from "react-redux";
+import { useAppSelector, useAppDispatch } from '../services/hooks';
 
 import { orderSlice } from '../services/slices/order';
 import { HTML5Backend } from 'react-dnd-html5-backend';
@@ -14,7 +14,7 @@ import {FC, useEffect} from "react";
 import {userSlice} from "../services/slices/user";
 
 const HomePage: FC = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { closeOrderModal } = orderSlice.actions;
   const { checkAuthorization } = userSlice.actions;
 
@@ -22,15 +22,13 @@ const HomePage: FC = () => {
     itemsRequest,
     itemsSuccess,
     itemsFailed
-  } = useSelector(
-      // @ts-ignore
+  } = useAppSelector(
     state => state.items
   );
 
   const {
     isOrderModalOpen
-  } = useSelector(
-      // @ts-ignore
+  } = useAppSelector(
       state => state.order
   );
 
@@ -74,7 +72,6 @@ const HomePage: FC = () => {
             </div>
         )}
         {
-          // @ts-ignore
           isOrderModalOpen && (
             <Modal 
               header={null}

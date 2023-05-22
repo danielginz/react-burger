@@ -1,5 +1,5 @@
 import React, {useState, useRef, useCallback, useEffect, FC, ChangeEvent, FormEvent} from 'react';
-import { useSelector, useDispatch } from "react-redux";
+import { useAppSelector, useAppDispatch } from '../services/hooks';
 
 import Loader from '../components/loader/loader';
 import { Input, PasswordInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -11,14 +11,13 @@ import {FORGOT_PASSWORD, REGISTER} from "../utils/routes-constants";
 import formStyles from "../components/form/form.module.css";
 
 export const LoginPage: FC = () => {
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
 
     const {
         userRequest,
         userSuccess,
         userFailed
-    } = useSelector(
-        // @ts-ignore
+    } = useAppSelector(
         state => state.user
     );
     const { resetStatus } = userSlice.actions;
@@ -27,7 +26,6 @@ export const LoginPage: FC = () => {
     const navigate = useNavigate();
 
     const resetError = () => {
-        // @ts-ignore
         dispatch(resetStatus());
     }
 
@@ -106,7 +104,6 @@ export const LoginPage: FC = () => {
         }
         else {
             if (!userRequest) {
-                // @ts-ignore
                 dispatch(login({
                     email: emailValue,
                     password: passwordValue

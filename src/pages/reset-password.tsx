@@ -8,20 +8,19 @@ import { Input, PasswordInput, Button } from '@ya.praktikum/react-developer-burg
 import { resetPassword, userSlice } from '../services/slices/user';
 
 import { useNavigate} from 'react-router-dom';
-import {useDispatch, useSelector} from "react-redux";
+import { useAppSelector, useAppDispatch } from '../services/hooks';
 import {LOGIN} from "../utils/routes-constants";
 import formStyles from "../components/form/form.module.css";
 
 export const ResetPasswordPage: FC = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
-  // @ts-ignore
+
   const {
     userRequest,
     userSuccess,
     userFailed
-  } = useSelector(
-      // @ts-ignore
+  } = useAppSelector(
       state => state.user
   );
   const { resetStatus } = userSlice.actions;
@@ -29,7 +28,6 @@ export const ResetPasswordPage: FC = () => {
   const navigate = useNavigate();
 
   const resetError = (): void => {
-    // @ts-ignore
     dispatch(resetStatus());
   }
 
@@ -105,7 +103,6 @@ export const ResetPasswordPage: FC = () => {
     }
     else {
       if (!userRequest) {
-        // @ts-ignore
         dispatch(resetPassword(
             codeValue,
             passwordValue,

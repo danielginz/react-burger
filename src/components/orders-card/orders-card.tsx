@@ -1,11 +1,11 @@
-import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useAppSelector } from '../../services/hooks';
+import {useLocation, useNavigate} from "react-router-dom";
 import ordersCardStyles from './orders-card.module.css';
 
-import { formatDateTime } from '../../utils/utils'
+import { formatDateTime } from '../../services/utils'
 
 import {FC, useCallback, useEffect, useState} from 'react';
-import {IIngredient, IOrder} from "../../services/types";
+import { IOrder} from "../../services/types";
 import {CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 
 interface IOrdersCardProps {
@@ -16,10 +16,11 @@ interface IOrdersCardProps {
 const OrdersCard: FC<IOrdersCardProps> = ({order, source}) => {
     const {
         items
-    } = useSelector(
-        // @ts-ignore
+    } = useAppSelector(
         state => state.items
     );
+
+    let location = useLocation();
 
     const navigate = useNavigate();
     const [orderStatusName, setOrderStatusName] = useState<string>('');
@@ -52,16 +53,16 @@ const OrdersCard: FC<IOrdersCardProps> = ({order, source}) => {
 
     const handleOrderClick = () => {
         const currentUrl = window.location.pathname
-        navigate(`${currentUrl}/${order.id}`);
+        navigate(`${currentUrl}/${order._id}`, { state: { background: location } });
     }
 
     const getOrderDateTime = useCallback(() => (
-        order.time && formatDateTime(order.time)
-    ), [order.time]);
+        order.createdAt && formatDateTime(order.createdAt)
+    ), [order.createdAt]);
 
     const orderedIngredients = order.ingredients &&
         order.ingredients.map(item_id => (
-            items.find((item: { _id: IIngredient; }) => item._id === item_id)
+            items.find(item => item._id === item_id)
         ));
 
     const filteredOrderedIngredients = orderedIngredients &&
@@ -119,21 +120,33 @@ const OrdersCard: FC<IOrdersCardProps> = ({order, source}) => {
             })
     }, [orderedMiddleItems, orderedBun]);
 
+    const calculateOrderPrice = useCallback(() => (
+        orderedBun && orderedBun.price && orderedMiddleItems ?
+            (
+                orderedBun.price + orderedMiddleItems.reduce((acc, p) =>
+                    !!p ? (acc + (p.price || 0)) : 0, 0)
+            ) : ( 0 )
+    ), [orderedBun, orderedMiddleItems]);
+
     return (
+        (!!orderedBun && !!orderedBun._id) ?
             <li
                 className={ordersCardStyles.order_card}
                 onClick={handleOrderClick}
             >
                 <div className={ordersCardStyles.order_info}>
                     <p className='text text_type_digits-default'>
-                        {`#${order.id}`}
+                        {typeof order.number === 'number'
+                            ? `#${order.number.toString()/*.padStart(6, '0')*/}`
+                            : null
+                        }
                     </p>
                     <p className='text text_type_main-default text_color_inactive'>
                         {getOrderDateTime()}
                     </p>
                 </div>
                 <p className={'mt-6 text text_type_main-medium'}>
-                    {order.type}
+                    {order.name}
                 </p>
                 {source === 'history' ?
                     <p className={
@@ -148,12 +161,15 @@ const OrdersCard: FC<IOrdersCardProps> = ({order, source}) => {
                         {renderIngredientIcons()}
                     </ul>
                     <div className={'flex_row ml-6'}>
-                        <p className='text text_type_digits-default'>{order.price}</p>
-                        <CurrencyIcon  type="primary"/>
+                        <p className='text text_type_digits-default'>{calculateOrderPrice()}</p>
+                        <CurrencyIcon type='primary'/>
                     </div>
                 </div>
             </li>
+            : null
     );
+
+
 };
 
 export default OrdersCard;

@@ -1,5 +1,5 @@
 import {useEffect, useCallback, FC} from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useAppSelector, useAppDispatch } from '../services/hooks';
 import {useLocation, useNavigate, useParams} from 'react-router-dom';
 import Modal from '../components/modal/modal';
 import IngredientDetails from '../components/ingredient-details/ingredient-details';
@@ -8,7 +8,7 @@ import { itemsSlice } from '../services/slices/items';
 import {IIngredient} from "../services/types";
 
 export const IngredientModalPage: FC = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const navigate = useNavigate();
 
@@ -19,15 +19,14 @@ export const IngredientModalPage: FC = () => {
     itemsRequest,
     itemsSuccess,
     itemsFailed
-  } = useSelector(
-     // @ts-ignore
+  } = useAppSelector(
     state => state.items
   );
 
   const { request } = itemsSlice.actions;
 
   const currentItemId: string | undefined = useParams<{ id: string }>().id;
-  const currentItem: IIngredient = items.find((item: { _id: string | undefined; }) => item._id === currentItemId) || {};
+  const currentItem: IIngredient = items.find((item) => item._id === currentItemId) || {};
 
   const replaceState = useCallback(() => {
     dispatch(request())

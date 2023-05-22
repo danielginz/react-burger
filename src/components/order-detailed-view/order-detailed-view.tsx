@@ -1,10 +1,11 @@
-import { useSelector } from "react-redux";
+
+import { useAppSelector } from '../../services/hooks';
 import orderDetailedViewStyles from './order-detailed-view.module.css';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import { formatDateTime } from '../../utils/utils'
+import {IIngredient, IOrder} from '../../services/types';
 
 import {FC, useCallback, useEffect, useState} from 'react';
-import {IIngredient, IOrder} from "../../services/types";
+import {formatDateTime} from "../../services/utils";
 
 interface IOrderDetailedView {
     order: IOrder,
@@ -17,8 +18,7 @@ const OrderDetailedView: FC<IOrderDetailedView> = ({ order, isOrderModal=false }
 
     const {
         items
-    } = useSelector(
-        // @ts-ignore
+    } = useAppSelector(
         state => state.items
     );
     const [orderStatusName, setOrderStatusName] = useState<TOrderStatus>('');
@@ -49,13 +49,14 @@ const OrderDetailedView: FC<IOrderDetailedView> = ({ order, isOrderModal=false }
         }
     }, [order.status]);
 
-    const getOrderDateTime = useCallback(() => (
-        !!order.time ? formatDateTime(order.time) : ''
-    ), [order.time]);
+    const getOrderDateTime = useCallback(():string => (
+        !!order.createdAt ? formatDateTime(order.createdAt) : ''
+    ), [order.createdAt]);
+
 
     const orderedIngredients: Array<IIngredient> = !!order.ingredients ? (
         order.ingredients.map(item_id => (
-            items.find((item: { _id: IIngredient; }) => item?._id === item_id)
+            items.find(item => item?._id === item_id)
         ) || {})
     ) : []
 
@@ -100,6 +101,7 @@ const OrderDetailedView: FC<IOrderDetailedView> = ({ order, isOrderModal=false }
                 <li
                     className={orderDetailedViewStyles.ingredient_wrapper}
                     key={uniqueCountedItems[item_id]._id}>
+
           <span
               className='ingredient_icon_wrapper'
           >
@@ -126,12 +128,13 @@ const OrderDetailedView: FC<IOrderDetailedView> = ({ order, isOrderModal=false }
                 </li>
             )
         };
+
         return renderedItems;
     }, [orderedMiddleItems, orderedBun]);
 
     const calculateOrderPrice = useCallback((): number => {
         const orderIngredients: Array<IIngredient> = order.ingredients?.map(item_id => {
-            const orderedItem: IIngredient = items.find((item: { _id: IIngredient; }) => item._id === item_id) || {};
+            const orderedItem: IIngredient = items.find(item => item._id === item_id) || {};
             return ({
                 price: orderedItem.price,
                 type: orderedItem.type
@@ -143,42 +146,54 @@ const OrderDetailedView: FC<IOrderDetailedView> = ({ order, isOrderModal=false }
         );
     }, [items, order.ingredients]);
 
+    function value(value: IIngredient, index: number, array: IIngredient[]): void {
+        throw new Error("Function not implemented.");
+    }
 
-    return(
-        <div className={orderDetailedViewStyles.order_container}>
-            {!isOrderModal &&
-                <p className={
-                    orderDetailedViewStyles.order_id +
-                    ' text text_type_digits-default'
-                }>
-                    {`#${order.id}`}
-                </p>
-            }
-            <p className={'mt-10 mb-3 text text_type_main-medium'}>
-                {order.type}
-            </p>
+    // @ts-ignore
+    let iIngredients: Array<JSX.Element> = renderIngredientIcons();
+    return<div className={orderDetailedViewStyles.order_container}>
+        {!isOrderModal &&
             <p className={
-                `${orderStatusClass} mt-2 text text_type_main-default`
+                orderDetailedViewStyles.order_id +
+                ' text text_type_digits-default'
             }>
-                {orderStatusName}
+                {`#${order.number?.toString()/*.padStart(6, '0')*/}`}
             </p>
-            <p className={'mt-15 mb-6 text text_type_main-medium'}>
-                Состав:
-            </p>
-            <ul className={orderDetailedViewStyles.ingredients_container + ' pr-6'}>
-                {renderIngredientIcons().toString()}
+        }
+        <p className={'mt-10 mb-3 text text_type_main-medium'}>
+            {order.name}
+        </p>
+        <p className={
+            `${orderStatusClass} mt-2 text text_type_main-default`
+        }>
+            {orderStatusName}
+        </p>
+        <p className={'mt-15 mb-6 text text_type_main-medium'}>
+            Состав:
+        </p>
 
-            </ul>
-            <div className={orderDetailedViewStyles.order_info + ' mt-10'}>
-                <p className='text text_type_main-default text_color_inactive'>
-                    {getOrderDateTime()}
-                </p>
-                <div className={'flex_row ml-6'}>
-                    <p className='text text_type_digits-default'>{calculateOrderPrice()}</p>
-                    <CurrencyIcon type='primary'/>
-                </div>
+
+        <ul className={orderDetailedViewStyles.ingredients_container + ' pr-6'}/>
+            {iIngredients[0]}
+            {iIngredients[1]}
+            {iIngredients[2]}
+            {iIngredients[3]}
+            {iIngredients[4]}
+            {iIngredients[5]}
+            {iIngredients[6]}
+            {iIngredients[7]}
+
+        <div className={orderDetailedViewStyles.order_info + ' mt-10'}>
+            <p className='text text_type_main-default text_color_inactive'>
+                {getOrderDateTime()}
+            </p>
+            <div className={'flex_row ml-6'}>
+                <p className='text text_type_digits-default'>{calculateOrderPrice()}</p>
+                <CurrencyIcon type='primary'/>
             </div>
         </div>
-    );
+    </div>;
 };
+
 export default OrderDetailedView;

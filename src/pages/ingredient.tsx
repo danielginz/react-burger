@@ -1,4 +1,5 @@
-import { useSelector } from 'react-redux';
+
+import { useAppSelector } from '../services/hooks';
 import { useParams } from 'react-router-dom';
 import IngredientDetails from '../components/ingredient-details/ingredient-details';
 import Loader from '../components/loader/loader';
@@ -10,8 +11,7 @@ export const IngredientPage: FC = () => {
     itemsRequest,
     itemsSuccess,
     itemsFailed
-  } = useSelector(
-      // @ts-ignore
+  } = useAppSelector(
       state => state.items
   );
 
@@ -42,7 +42,7 @@ export const IngredientPage: FC = () => {
             Детали ингредиента
           </p>
           <IngredientDetails
-            item={items.find((item: { _id: string | undefined; }) => item._id === currentIngredientId) || {}}
+              item={items.find((item) => item._id === currentIngredientId) || {}}
           />
         </div>
       )}

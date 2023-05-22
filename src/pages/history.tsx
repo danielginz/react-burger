@@ -1,22 +1,22 @@
 import {FC, useEffect} from 'react';
-import { useSelector, useDispatch } from "react-redux";
+import { useAppSelector, useAppDispatch } from '../services/hooks';
 import styles from './history.module.css';
 
 import Sidebar from '../components/sidebar/sidebar';
 import OrdersList from '../components/orders-list/orders-list';
 import Loader from '../components/loader/loader';
 
-import { getFeed } from '../services/slices/feed';
+import { feedSlice } from '../services/slices/feed';
+import { getUser, userSlice, startHistory, stopHistory } from '../services/slices/user';
 
 export const HistoryPage: FC = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const {
     itemsRequest,
     itemsSuccess,
     itemsFailed
-  } = useSelector(
-    // @ts-ignore
+  } = useAppSelector(
     state => state.items
   );
   const {
@@ -24,8 +24,7 @@ export const HistoryPage: FC = () => {
     userRequest,
     userSuccess,
     userFailed
-  } = useSelector(
-     // @ts-ignore
+  } = useAppSelector(
     state => state.user
   );
   const {
@@ -33,21 +32,40 @@ export const HistoryPage: FC = () => {
     feedRequest,
     feedSuccess,
     feedFailed
-  } = useSelector(
-      // @ts-ignore
+  } = useAppSelector(
       state => state.feed
   );
 
-  const userOrders = orders.filter((order: { id: any; }) => (
-    user.orders.includes(order.id)
-  ));
+  const {
+    resetStatus
+  } = userSlice.actions;
+
+  const {
+    wsConnected,
+    wsError
+  } = useAppSelector(
+      state => state.ws
+  );
 
   useEffect(() => {
-    if (!feedSuccess) {
-      // @ts-ignore
-      dispatch(getFeed());
+    dispatch(resetStatus());
+
+    dispatch(startHistory());
+
+    if (!userSuccess && !userRequest) {
+      dispatch(getUser());
     }
-  }, [dispatch, feedSuccess]);
+    return () => {
+      dispatch(stopHistory());
+    };
+  }, []);
+
+  useEffect(() => {
+    if (wsConnected)
+      dispatch(feedSlice.actions.success());
+    else if (wsError)
+      dispatch(feedSlice.actions.failed());
+  }, [wsConnected, wsError]);
 
   return(
     <>
@@ -74,7 +92,7 @@ export const HistoryPage: FC = () => {
             (!itemsRequest || !userRequest || !feedRequest) && (
               <OrdersList 
                 source='history'
-                orders={userOrders}
+                orders={orders}
               />
           )}
         </div>

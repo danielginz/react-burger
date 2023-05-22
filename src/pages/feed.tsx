@@ -1,22 +1,20 @@
 import {FC, useEffect} from 'react';
-import { useSelector, useDispatch } from "react-redux";
+import { useAppSelector, useAppDispatch } from '../services/hooks';
 import styles from './feed.module.css';
 
 import OrdersList from '../components/orders-list/orders-list';
 import FeedInfoPanel from '../components/feed-info-panel/feed-info-panel';
 import Loader from '../components/loader/loader';
 
-import { getFeed } from '../services/slices/feed';
+import { feedSlice, startFeed, stopFeed } from '../services/slices/feed';
 
 export const FeedPage: FC = () => {
-const dispatch = useDispatch();
-
+  const dispatch = useAppDispatch();
   const {
     itemsRequest,
     itemsSuccess,
     itemsFailed
-  } = useSelector(
-     // @ts-ignore
+  } = useAppSelector(
     state => state.items
   );
 
@@ -25,18 +23,35 @@ const dispatch = useDispatch();
     feedRequest,
     feedSuccess,
     feedFailed
-  } = useSelector(
+  } = useAppSelector(
      // @ts-ignore
     state => state.feed
   );
 
+  const {
+    wsConnected,
+    wsError
+  } = useAppSelector(
+      state => state.ws
+  );
+
 
   useEffect(() => {
-    if (!feedSuccess) {
-      // @ts-ignore
-      dispatch(getFeed());
-    }
-  }, [dispatch, feedSuccess]);
+    // open new websocket when the page is opened
+    dispatch(startFeed());
+    return () => {
+      // close the websocket when the page is closed
+      dispatch(stopFeed());
+    };
+  }, []);
+
+  useEffect(() => {
+    if (wsConnected && orders.length > 0)
+      dispatch(feedSlice.actions.success());
+    else if (wsError)
+      dispatch(feedSlice.actions.failed());
+  }, [wsConnected, wsError, orders]);
+
 
   return(
     <>

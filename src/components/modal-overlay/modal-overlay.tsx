@@ -1,5 +1,6 @@
 import modalOverlayStyles from './modal-overlay.module.css';
 import {FC} from "react";
+import modalStyles from "../modal/modal.module.css";
 
 interface IModalOverlay {
     closeModal: () => void

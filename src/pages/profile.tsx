@@ -7,10 +7,10 @@ import Loader from '../components/loader/loader';
 import { Input, EmailInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import { getUser, setUser, userSlice } from '../services/slices/user';
-import {useDispatch, useSelector} from "react-redux";
+import { useAppSelector, useAppDispatch } from '../services/hooks';
 
 export const ProfilePage: FC = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
 
   const {
@@ -18,8 +18,7 @@ export const ProfilePage: FC = () => {
     userRequest,
     userSuccess,
     userFailed
-  } = useSelector(
-      // @ts-ignore
+  } = useAppSelector(
       state => state.user
   );
 
@@ -32,7 +31,6 @@ export const ProfilePage: FC = () => {
   const [passwordValue, setPasswordValue] = useState<string>('')
 
   const resetError = (): void => {
-    // @ts-ignore
     dispatch(resetStatus());
   }
 
@@ -40,7 +38,6 @@ export const ProfilePage: FC = () => {
     resetError();
 
     if (!userSuccess && !userRequest) {
-      // @ts-ignore
       dispatch(getUser());
     }
   }, [])
@@ -108,7 +105,6 @@ export const ProfilePage: FC = () => {
 
   const onSubmitChanges = (): void => {
     if (!userRequest) {
-      // @ts-ignore
       dispatch(setUser({
         name: nameValue,
         email: emailValue,
@@ -125,7 +121,6 @@ export const ProfilePage: FC = () => {
     setFormChanged(false);
   }
 
-  console.log("AAA, profile, userRequest: "+userRequest+", userFailed: "+userFailed+", userSuccess: "+userSuccess);
   return(
       <>
         {

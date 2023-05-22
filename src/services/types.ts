@@ -16,13 +16,15 @@ export interface IIngredient {
 }
 
 export interface IOrder {
-    id?: string,
-    type?: string,
+    _id?: string,
+    createdAt?: number,//string,
+    updatedAt?: number,//string,
+    number?: number,
+    name?: string,
     status?: string,
-    time?: number,
-    price?: number,
     ingredients?: Array<IIngredient>
 }
+
 
 export interface INewOrder {
     id?: number,

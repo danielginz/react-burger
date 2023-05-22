@@ -14,7 +14,9 @@ export const wsSlice = createSlice({
   name: 'ws',
   initialState,
   reducers: {
-    wsConnectionStart(state, action: PayloadAction<{url: string, token?: string}>) {},
+    wsConnectionStartUsers(state, action: PayloadAction<{url?: string, token?: string}>) {},
+
+    wsConnectionStartAll(state, action: PayloadAction<{url?: string, token?: string}>) {},
 
     wsConnectionStop(state) {
       state.wsConnected = false;

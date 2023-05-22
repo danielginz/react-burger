@@ -2,7 +2,7 @@ import {Navigate, RouteProps} from 'react-router-dom';
 import { useSelector, useDispatch } from "react-redux";
 
 import { userSlice } from '../services/slices/user';
-import {FC} from "react";
+import {FC, useEffect } from "react";
 
 // @ts-ignore
 export const ProtectedGuestRoute: FC<RouteProps> = ({ element }) => {
@@ -12,11 +12,14 @@ export const ProtectedGuestRoute: FC<RouteProps> = ({ element }) => {
     isAuthorized
   } = useSelector(
       // @ts-ignore
-    state => state.user
+      state => state.user
   );
 
   const { checkAuthorization } = userSlice.actions;
 
-  dispatch(checkAuthorization());
+  useEffect(() => {
+    dispatch(checkAuthorization());
+  }, [])
+
   return !isAuthorized ? element : <Navigate to="/profile" replace/>;
 }

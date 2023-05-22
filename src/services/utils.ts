@@ -18,28 +18,29 @@ const getDaysFromToday = (dateTime: Date): number => {
   return Math.floor((utcToday - utcDateTime) / MILLISECONDS_PER_DAY);
 }
 
-export const formatDateTime = (time: string): string => {
+
+export const formatDateTime = (time: number/*string*/): string => {
   const dateTime: Date = new Date(time);
   const daysFromToday: number = getDaysFromToday(dateTime);
 
   const getPluralDayForm = (n: number): string => (
-    (n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 10 || n % 100 >= 20)) ?
-      'дня' : 'дней'
+      (n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 10 || n % 100 >= 20)) ?
+          'дня' : 'дней'
   );
-  
+
   const day: string = (
-    daysFromToday === 0 ?
-      'Сегодня' :
-      daysFromToday === 1 ?
-        'Вчера' : 
-        `${daysFromToday} ${getPluralDayForm(daysFromToday)} назад`
+      daysFromToday === 0 ?
+          'Сегодня' :
+          daysFromToday === 1 ?
+              'Вчера' :
+              `${daysFromToday} ${getPluralDayForm(daysFromToday)} назад`
   );
   const hours: string = dateTime.getHours().toString().padStart(2, '0');
   const mins: string = dateTime.getMinutes().toString().padStart(2, '0');
   const timeZone: string = new Intl.NumberFormat("ru-RU", {
     signDisplay: "exceptZero"
   }).format(
-    0 - dateTime.getTimezoneOffset() / 60
+      0 - dateTime.getTimezoneOffset() / 60
   );
 
   return (`${day}, ${hours}:${mins} i-GMT${timeZone}`);
@@ -47,7 +48,7 @@ export const formatDateTime = (time: string): string => {
 
 export function getCookie(name: string): string {
   const matches: RegExpMatchArray | null = document.cookie.match(
-    new RegExp('(?:^|; )' + name.replace(/([$?*|{}\]\\^])/g, '\\$1') + '=([^;]*)')
+      new RegExp('(?:^|; )' + name.replace(/([$?*|{}\]\\^])/g, '\\$1') + '=([^;]*)')
   );
   return matches ? decodeURIComponent(matches[1]) : '';
 }

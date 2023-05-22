@@ -1,5 +1,5 @@
 import { memo } from 'react';
-import { useDispatch } from 'react-redux';
+import { useAppDispatch } from '../../services/hooks';
 import { useDrag } from 'react-dnd';
 import burgerIngredientsCardStyles from './burger-ingredients-card.module.css';
 import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -11,7 +11,7 @@ import {IIngredient} from "../../services/types";
 
 const BurgerIngredientsCard = memo<IIngredient>(
     ( item ) => {
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
     const { increaseQuantityValue } = itemsSlice.actions;
     const { addMiddleItem } = burgerConstructorSlice.actions
 
@@ -26,7 +26,10 @@ const BurgerIngredientsCard = memo<IIngredient>(
         end(item, monitor) {
             if(monitor.didDrop() && item.type !== 'bun') {
                 dispatch(addMiddleItem(item));
-                dispatch(increaseQuantityValue(item._id));
+                if(item._id != undefined){
+                    dispatch(increaseQuantityValue(item._id));
+                }
+
             }
         }
     });

@@ -1,30 +1,14 @@
 import {useState, useEffect, FC} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
+import { useAppSelector } from '../../services/hooks';
 import { useInView } from 'react-intersection-observer';
 import burgerIngredientsStyles from './burger-ingredients.module.css';
 import BurgerIngredientsCategory from '../burger-ingredients-category/burger-ingredients-category';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import {BUN, MAIN, SAUCE} from '../../utils/constants';
-import {orderSlice} from "../../services/slices/order";
-import {ingredientSlice} from "../../services/slices/ingredient";
-import Modal from "../modal/modal";
-import IngredientDetails from "../ingredient-details/ingredient-details";
 
 const BurgerIngredients: FC = () => {
     const [current, setCurrent] = useState(`${BUN}`)
-    // @ts-ignore
-    const { items } = useSelector(state => state.items);
-
-    const dispatch = useDispatch();
-    const { closeOrderModal } = orderSlice.actions;
-    const { closeIngredientModal } = ingredientSlice.actions;
-
-    const {
-        selectedIngredient
-    } = useSelector(
-        // @ts-ignore
-        state => state.ingredient
-    );
+    const { items } = useAppSelector(state => state.items);
 
     const setTab = (tabName: string): void => {
         setCurrent(tabName);
@@ -61,11 +45,6 @@ const BurgerIngredients: FC = () => {
         }
     }, [inViewBun, inViewMain, inViewSauce]);
 
-    const closeAllModals = () => {
-        dispatch(closeOrderModal());
-        dispatch(closeIngredientModal());
-    };
-
     return(
         <>
             <h1 className="text text_type_main-large mt-10 mb-5">
@@ -100,32 +79,23 @@ const BurgerIngredients: FC = () => {
                 <BurgerIngredientsCategory
                     heading="Булки"
                     categoryId='bun'
-                    items={items.filter((item: { type: string; }) => item.type === 'bun')}
+                    items={items.filter(item => item.type === 'bun')}
                     ref={bunRef}
                 />
                 <BurgerIngredientsCategory
                     heading="Соусы"
                     categoryId='sauce'
-                    items={items.filter((item: { type: string; }) => item.type === 'sauce')}
+                    items={items.filter(item => item.type === 'sauce')}
                     ref={sauceRef}
                 />
 
                 <BurgerIngredientsCategory
                     heading="Начинки"
                     categoryId='main'
-                    items={items.filter((item: { type: string; }) => item.type === 'main')}
+                    items={items.filter(item => item.type === 'main')}
                     ref={mainRef}
                 />
             </div>
-
-            {
-                selectedIngredient.name !== undefined && (
-                    <Modal
-                        header='Детали ингредиента'
-                        closeModal={closeAllModals} >
-                        <IngredientDetails item={selectedIngredient} />
-                    </Modal>
-                )}
         </>
     );
 }

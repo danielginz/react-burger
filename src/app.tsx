@@ -11,6 +11,7 @@ import {
   ResetPasswordPage,
   FeedPage,
   OrderPage,
+  OrderModalPage,
   ProfilePage,
   HistoryPage,
   IngredientPage,
@@ -56,17 +57,17 @@ function App() {
         <Routes location={background || location}>
           <Route path="/" element={<HomePage />} />
 
-          <Route path={LOGIN} element={<ProtectedGuestRoute element={<LoginPage />}/>} />
-          <Route path={REGISTER} element={<ProtectedGuestRoute element={<RegisterPage />}/>} />
-          <Route path={FORGOT_PASSWORD} element={<ProtectedGuestRoute element={<ForgotPasswordPage />}/>} />
+          <Route path={LOGIN} element={<ProtectedGuestRoute element={<LoginPage />} />} />
+          <Route path={REGISTER} element={<ProtectedGuestRoute element={<RegisterPage />} />} />
+          <Route path={FORGOT_PASSWORD} element={<ProtectedGuestRoute element={<ForgotPasswordPage />} />} />
 
-          <Route path={RESET_PASSWORD} element={<ProtectedGuestRoute element={<ResetPasswordPage />}/>} />
+          <Route path={RESET_PASSWORD} element={<ProtectedGuestRoute element={<ResetPasswordPage />} />} />
           <Route path={FEED} element={<FeedPage />} />
           <Route path={FEED_ID} element={<OrderPage />} />
 
-          <Route path={PROFILE} element={<ProtectedRoute element={<ProfilePage />}/>} />
-          <Route path={PROFILE_ORDERS} element={<ProtectedRoute element={<HistoryPage />}/>} />
-          <Route path={PROFILE_ORDERS_ID} element={<ProtectedRoute element={<OrderPage />}/>} />
+          <Route path={PROFILE} element={<ProtectedRoute element={<ProfilePage />} />} />
+          <Route path={PROFILE_ORDERS} element={<ProtectedRoute element={<HistoryPage />} />} />
+          <Route path={PROFILE_ORDERS_ID} element={<ProtectedRoute element={<OrderPage />} />} />
 
 
           <Route path={INGRIDIENTS_ID} element={<IngredientPage />} />
@@ -74,16 +75,34 @@ function App() {
           <Route path={NOT_FOUND_PAGE} element={<NotFound404/>}/>
         </Routes>
 
-        {background && (
-            <Routes>
+        <Routes>
+          {background && (
               <Route
                   path={INGRIDIENTS_ID}
                   element={
-                      <IngredientModalPage />
+                    <IngredientModalPage />
                   }
               />
-            </Routes>
-        )}
+          )}
+
+          {background && (
+              <Route
+                  path={PROFILE_ORDERS_ID}
+                  element={
+                    <OrderModalPage />
+                  }
+              />
+          )}
+
+          {background && (
+              <Route
+                  path={FEED_ID}
+                  element={
+                    <OrderModalPage />
+                  }
+              />
+          )}
+        </Routes>
       </>
   );
 }
