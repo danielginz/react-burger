@@ -7,7 +7,7 @@ import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import { configureStore } from '@reduxjs/toolkit'
 import rootReducer from './services/slices';
-import {BrowserRouter} from "react-router-dom";
+import {BrowserRouter, HashRouter} from "react-router-dom";
 import {wsMiddleware} from "./services/middleware";
 //import {wsMiddleware2} from "./services/middleware/ws-middleware2";
 
