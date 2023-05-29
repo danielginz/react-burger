@@ -1,6 +1,6 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit'
 
-import {NORMA_API, USER_ORDERS_WS_URL} from '../../utils/burger-api';
+import { NORMA_API } from '../../utils/burger-api';
 import { useAppDispatch } from '../../services/hooks';
 import { getCookie, setCookie, deleteCookie } from '../../services/utils';
 import {IUser} from "../types";
