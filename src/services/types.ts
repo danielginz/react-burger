@@ -12,7 +12,8 @@ export interface IIngredient {
     image_large?: string,
     image_mobile?: string,
     __v?: number,
-    quantity?: number
+    quantity?: number,
+    uniqueId?: string
 }
 
 export interface IOrder {

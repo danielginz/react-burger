@@ -1,20 +1,10 @@
 import { userSlice } from "./user";
+import { initialState } from "./user";
+import { fakePassword } from "./user";
 
 const testName = 'Test Name';
 const testPassword = '123456';
 const testEmail = 'test@mail.com';
-
-const fakePassword = '123456';
-
-const initStore = {
-  user: {
-    password: fakePassword
-  },
-  userRequest: false,
-  userFailed: false,
-  userSuccess: false,
-  isAuthorized: true
-}
 
 const {
   request,
@@ -33,61 +23,61 @@ describe('tests for userSlice', () => {
 
   it('should return the initial state', () => {
     expect(userSlice.reducer(undefined, {}))
-    .toEqual(initStore)
+    .toEqual(initialState)
   })
 
   it('should set the request state', () => {
     expect(userSlice.reducer({
-      ...initStore,
+      ...initialState,
       userSuccess: true
     }, request()))
     .toEqual({
-      ...initStore,
+      ...initialState,
       userRequest: true
     })
   })
 
   it('should set the failed state', () => {
     expect(userSlice.reducer({
-      ...initStore,
+      ...initialState,
       userRequest: true
     }, failed()))
     .toEqual({
-      ...initStore,
+      ...initialState,
       userFailed: true
     })
   })
 
   it('should set the success state', () => {
     expect(userSlice.reducer({
-      ...initStore,
+      ...initialState,
       userRequest: true
     }, success()))
     .toEqual({
-      ...initStore,
+      ...initialState,
       userSuccess: true
     })
   })
 
   it('should reset the error status', () => {
     expect(userSlice.reducer({
-      ...initStore,
+      ...initialState,
       userFailed: true
     }, resetStatus()))
     .toEqual({
-      ...initStore,
+      ...initialState,
       userFailed: false
     })
   })
 
   it('should set the user name', () => {
     expect(userSlice.reducer({
-      ...initStore
+      ...initialState
     }, setName(testName)))
     .toEqual({
-      ...initStore,
+      ...initialState,
       user: {
-        ...initStore.user,
+        ...initialState.user,
         name: testName
       }
     })
@@ -95,12 +85,12 @@ describe('tests for userSlice', () => {
 
   it('should set the user password', () => {
     expect(userSlice.reducer({
-      ...initStore
+      ...initialState
     }, setPassword(testPassword)))
     .toEqual({
-      ...initStore,
+      ...initialState,
       user: {
-        ...initStore.user,
+        ...initialState.user,
         password: testPassword
       }
     })
@@ -108,12 +98,12 @@ describe('tests for userSlice', () => {
 
   it('should set the user email', () => {
     expect(userSlice.reducer({
-      ...initStore
+      ...initialState
     }, setEmail(testEmail)))
     .toEqual({
-      ...initStore,
+      ...initialState,
       user: {
-        ...initStore.user,
+        ...initialState.user,
         email: testEmail
       }
     })
@@ -121,7 +111,7 @@ describe('tests for userSlice', () => {
 
   it('should reset the user data', () => {
     expect(userSlice.reducer({
-      ...initStore,
+      ...initialState,
       user: {
         name: testName,
         email: testEmail,
@@ -129,7 +119,7 @@ describe('tests for userSlice', () => {
       }
     }, resetUserData()))
     .toEqual({
-      ...initStore,
+      ...initialState,
        user: {
         name: '',
         password: fakePassword,
@@ -140,32 +130,32 @@ describe('tests for userSlice', () => {
 
   it('should set the user as authorized', () => {
     expect(userSlice.reducer({
-      ...initStore
+      ...initialState
     }, setAuthorization(true)))
     .toEqual({
-      ...initStore,
+      ...initialState,
       isAuthorized: true
     })
   })
 
   it('should set the user as unauthorized', () => {
     expect(userSlice.reducer({
-      ...initStore,
+      ...initialState,
       isAuthorized: true
     }, setAuthorization(false)))
     .toEqual({
-      ...initStore,
+      ...initialState,
       isAuthorized: false
     })
   })
 
   it('should check the cookies and set the user authorization accordingly', () => {
     expect(userSlice.reducer({
-      ...initStore,
+      ...initialState,
       isAuthorized: true
     }, checkAuthorization()))
     .toEqual({
-      ...initStore,
+      ...initialState,
       isAuthorized: false
     })
   })

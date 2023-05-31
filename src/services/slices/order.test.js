@@ -1,18 +1,11 @@
 import { orderSlice } from "./order";
+import { initialState } from "./order";
 
 const testOrder = {
   name: 'Тестовый заказ',
   id: '123',
   success: true
 };
-
-const initStore = {
-  orderData: {},
-  orderRequest: false,
-  orderFailed: false,
-  orderSuccess: false,
-  isOrderModalOpen: false
-}
 
 const {
   request,
@@ -26,17 +19,17 @@ describe('tests for orderSlice', () => {
 
   it('should return the initial state', () => {
     expect(orderSlice.reducer(undefined, {}))
-    .toEqual(initStore)
+    .toEqual(initialState)
   })
 
   it('should set the request state and reset order data', () => {
     expect(orderSlice.reducer({
-      ...initStore,
+      ...initialState,
       orderSuccess: true,
       orderData: testOrder
     }, request()))
     .toEqual({
-      ...initStore,
+      ...initialState,
       orderRequest: true,
       orderData: {}
     })
@@ -44,12 +37,12 @@ describe('tests for orderSlice', () => {
 
   it('should set the failed state', () => {
     expect(orderSlice.reducer({
-      ...initStore,
+      ...initialState,
       orderRequest: true,
       orderData: testOrder
     }, failed()))
     .toEqual({
-      ...initStore,
+      ...initialState,
       orderFailed: true,
       orderData: { success: false }
     })
@@ -57,7 +50,7 @@ describe('tests for orderSlice', () => {
 
   it('should set the success state and set order data', () => {
     expect(orderSlice.reducer({
-      ...initStore,
+      ...initialState,
       orderRequest: true
     }, success({
       name: testOrder.name,
@@ -65,7 +58,7 @@ describe('tests for orderSlice', () => {
       success: testOrder.success
     })))
     .toEqual({
-      ...initStore,
+      ...initialState,
       orderSuccess: true,
       orderData: testOrder
     })
@@ -73,21 +66,21 @@ describe('tests for orderSlice', () => {
 
   it('should open the OrderModal', () => {
     expect(orderSlice.reducer({
-      ...initStore
+      ...initialState
     }, openOrderModal()))
     .toEqual({
-      ...initStore,
+      ...initialState,
       isOrderModalOpen: true
     })
   })
 
   it('should close the OrderModal', () => {
     expect(orderSlice.reducer({
-      ...initStore,
+      ...initialState,
       isOrderModalOpen: true
     }, closeOrderModal()))
     .toEqual({
-      ...initStore
+      ...initialState
     })
   })
 })

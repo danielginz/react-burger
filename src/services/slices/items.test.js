@@ -1,4 +1,5 @@
 import { itemsSlice } from "./items";
+import { initialState } from "./items";
 
 const testItem = {
   _id: '123',
@@ -17,13 +18,6 @@ const testItem3 = {
   quantity: 2
 };
 
-const initStore = {
-  items: [],
-  itemsRequest: false,
-  itemsFailed: false,
-  itemsSuccess: false
-}
-
 const {
   request,
   failed,
@@ -37,34 +31,34 @@ describe('tests for itemsSlice', () => {
 
   it('should return the initial state', () => {
     expect(itemsSlice.reducer(undefined, {}))
-    .toEqual(initStore)
+    .toEqual(initialState)
   })
 
   it('should set the request state', () => {
     expect(itemsSlice.reducer({
-      ...initStore,
+      ...initialState,
       itemsSuccess: true
     }, request()))
     .toEqual({
-      ...initStore,
+      ...initialState,
       itemsRequest: true
     })
   })
 
   it('should set the failed state', () => {
     expect(itemsSlice.reducer({
-      ...initStore,
+      ...initialState,
       itemsRequest: true
     }, failed()))
     .toEqual({
-      ...initStore,
+      ...initialState,
       itemsFailed: true
     })
   })
 
   it('should set the success state and set the items data', () => {
     expect(itemsSlice.reducer({
-      ...initStore,
+      ...initialState,
       itemsRequest: true
     }, success([
       testItem,
@@ -72,7 +66,7 @@ describe('tests for itemsSlice', () => {
       testItem3
     ])))
     .toEqual({
-      ...initStore,
+      ...initialState,
       itemsSuccess: true,
       items: [
         testItem,
@@ -84,7 +78,7 @@ describe('tests for itemsSlice', () => {
 
   it('should increase the qty by 1 of item with id 123', () => {
     expect(itemsSlice.reducer({
-      ...initStore,
+      ...initialState,
       items: [
         testItem,
         testItem2,
@@ -92,7 +86,7 @@ describe('tests for itemsSlice', () => {
       ]
     }, increaseQuantityValue('123')))
     .toEqual({
-      ...initStore,
+      ...initialState,
       items: [
         {
           ...testItem,
@@ -106,7 +100,7 @@ describe('tests for itemsSlice', () => {
 
   it('should decrease the qty by 1 of item with id 123', () => {
     expect(itemsSlice.reducer({
-      ...initStore,
+      ...initialState,
       items: [
         testItem,
         testItem2,
@@ -114,7 +108,7 @@ describe('tests for itemsSlice', () => {
       ]
     }, decreaseQuantityValue('234')))
     .toEqual({
-      ...initStore,
+      ...initialState,
       items: [
         testItem,
         {
@@ -128,7 +122,7 @@ describe('tests for itemsSlice', () => {
   
   it('should clear qty of all items in store', () => {
     expect(itemsSlice.reducer({
-      ...initStore,
+      ...initialState,
       items: [
         testItem,
         testItem2,
@@ -136,7 +130,7 @@ describe('tests for itemsSlice', () => {
       ]
     }, clearValues()))
     .toEqual({
-      ...initStore,
+      ...initialState,
       items: [
         {
           ...testItem,

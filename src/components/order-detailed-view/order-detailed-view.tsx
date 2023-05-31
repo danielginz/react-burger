@@ -150,9 +150,10 @@ const OrderDetailedView: FC<IOrderDetailedView> = ({ order, isOrderModal=false }
         throw new Error("Function not implemented.");
     }
 
-    // @ts-ignore
-    let iIngredients: Array<JSX.Element> = renderIngredientIcons();
-    return<div className={orderDetailedViewStyles.order_container}>
+
+    //let iIngredients: Array<JSX.Element> = renderIngredientIcons();
+    let iIngredients: Array<any> = renderIngredientIcons();
+    return <div className={orderDetailedViewStyles.order_container}>
         {!isOrderModal &&
             <p className={
                 orderDetailedViewStyles.order_id +

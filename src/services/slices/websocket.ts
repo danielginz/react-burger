@@ -5,7 +5,7 @@ interface wsState {
   wsError: boolean
 }
 
-const initialState: wsState = {
+export const initialState: wsState = {
   wsConnected: false,
   wsError: false
 }

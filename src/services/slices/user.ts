@@ -445,7 +445,7 @@ export const stopHistory = () => {
   }
 }
 
-const fakePassword: string = '123456';
+export const fakePassword: string = '123456';
 
 interface userState {
   user: IUser,
@@ -455,7 +455,7 @@ interface userState {
   isAuthorized: boolean
 }
 
-const initialState: userState = {
+export const initialState: userState = {
   user: {
     password: fakePassword,
   },

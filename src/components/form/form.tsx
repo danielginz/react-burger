@@ -6,7 +6,8 @@ interface IForm {
   title?: string,
   actionName?: string,
   onFormSubmit?: FormEventHandler<HTMLFormElement>,
-  children: JSX.Element
+  children: React.ReactNode
+  //children: JSX.Element
 }
 
 const Form: FC<IForm> = (props) => {

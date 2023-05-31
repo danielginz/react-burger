@@ -1,4 +1,13 @@
 import { burgerConstructorSlice } from "./burger-constructor";
+import { initialState } from "./burger-constructor";
+import { useForm } from "../useForm";
+
+//const {testBunItemAAA, handleChange, setValues} = useForm({_id: 123, name: "Тестовая булка", price: 100});
+
+/*const myFunc = () => {
+  const {testBunItem, handleChange, setValues} = useForm({_id: 123, name: "Тестовая булка", price: 100});
+  return {testBunItem, handleChange, setValues};
+}*/
 
 const testBunItem = {
   _id: 123,
@@ -29,11 +38,6 @@ const testMiddleItem3 = {
   price: 500
 };
 
-const initStore = {
-  bunItem: {},
-  middleItems: []
-}
-
 const {
   addMiddleItem,
   moveMiddleItem,
@@ -46,23 +50,23 @@ describe('tests for burgerConstructorSlice', () => {
 
   it('should return the initial state', () => {
     expect(burgerConstructorSlice.reducer(undefined, {}))
-    .toEqual(initStore)
+    .toEqual(initialState)
   })
 
   it('should add the middle item', () => {
     expect(burgerConstructorSlice.reducer(
-      initStore,
+        initialState,
       addMiddleItem(testMiddleItem)
     )) 
     .toEqual({
-      ...initStore,
+      ...initialState,
       middleItems: [testMiddleItem]
     })
   })
 
   it('should add another middle item', () => {
     expect(burgerConstructorSlice.reducer({
-        ...initStore,
+        ...initialState,
         middleItems: [
           testMiddleItem
         ]
@@ -70,7 +74,7 @@ describe('tests for burgerConstructorSlice', () => {
       addMiddleItem(testMiddleItem2)
     )) 
     .toEqual({
-      ...initStore,
+      ...initialState,
       middleItems: [
         testMiddleItem,
         testMiddleItem2
@@ -80,7 +84,7 @@ describe('tests for burgerConstructorSlice', () => {
 
   it('should add third middle item', () => {
     expect(burgerConstructorSlice.reducer({
-        ...initStore,
+        ...initialState,
         middleItems: [
           testMiddleItem,
           testMiddleItem2
@@ -89,7 +93,7 @@ describe('tests for burgerConstructorSlice', () => {
       addMiddleItem(testMiddleItem3)
     )) 
     .toEqual({
-      ...initStore,
+      ...initialState,
       middleItems: [
         testMiddleItem,
         testMiddleItem2,
@@ -100,7 +104,7 @@ describe('tests for burgerConstructorSlice', () => {
 
   it('should move first middle item to make it last', () => {
     expect(burgerConstructorSlice.reducer({
-        ...initStore,
+        ...initialState,
         middleItems: [
           testMiddleItem,
           testMiddleItem2,
@@ -110,7 +114,7 @@ describe('tests for burgerConstructorSlice', () => {
       moveMiddleItem(0, 2)
     )) 
     .toEqual({
-      ...initStore,
+      ...initialState,
       middleItems: [
         testMiddleItem,
         testMiddleItem2,
@@ -121,7 +125,7 @@ describe('tests for burgerConstructorSlice', () => {
 
   it('should remove the second middle item', () => {
     expect(burgerConstructorSlice.reducer({
-        ...initStore,
+        ...initialState,
         middleItems: [
           testMiddleItem,
           testMiddleItem2,
@@ -131,7 +135,7 @@ describe('tests for burgerConstructorSlice', () => {
       deleteMiddleItem(1)
     )) 
     .toEqual({
-      ...initStore,
+      ...initialState,
       middleItems: [
         testMiddleItem,
         testMiddleItem3
@@ -141,7 +145,7 @@ describe('tests for burgerConstructorSlice', () => {
 
   it('should clear all middle items', () => {
     expect(burgerConstructorSlice.reducer({
-        ...initStore,
+        ...initialState,
         middleItems: [
           testMiddleItem,          
           testMiddleItem2,
@@ -150,40 +154,41 @@ describe('tests for burgerConstructorSlice', () => {
       },
       clearMiddleItems()
     )) 
-    .toEqual(initStore)
+    .toEqual(initialState)
   })
 
   it('should add the bun', () => {
+    //const {testBunItem, handleChange, setValues} = myFunc();
     expect(burgerConstructorSlice.reducer(
-      initStore,
+        initialState,
       setBunItem(testBunItem)
     ))
     .toEqual({
-      ...initStore,
+      ...initialState,
       bunItem: testBunItem
     })
   })
 
   it('should replace the bun', () => {
     expect(burgerConstructorSlice.reducer({
-        ...initStore,
+        ...initialState,
         bunItem: testBunItem
       },
       setBunItem(testBunItem2)
     ))
     .toEqual({
-      ...initStore,
+      ...initialState,
       bunItem: testBunItem2
     })
   })
 
   it('should remove the bun', () => {
     expect(burgerConstructorSlice.reducer({
-        ...initStore,
+        ...initialState,
         bunItem: testBunItem
       },
       setBunItem({})
     ))
-    .toEqual(initStore)
+    .toEqual(initialState)
   })
 })

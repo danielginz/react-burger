@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useSelector, useDispatch } from "react-redux";
+import { useAppSelector, useAppDispatch } from './services/hooks';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import { getItems } from './services/slices/items';
 
@@ -31,21 +31,19 @@ import {
 } from "./utils/routes-constants";
 
 function App() {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   let location = useLocation();
   let background = location.state && location.state.background;
 
   const {
     itemsSuccess,
-  } = useSelector(
-      // @ts-ignore
+  } = useAppSelector(
       state => state.items
   );
 
   useEffect(() => {
     if (!itemsSuccess) {
-      // @ts-ignore
       dispatch(getItems());
     }
   }, [dispatch, itemsSuccess]);

@@ -7,7 +7,7 @@ interface burgerConstructorState {
 }
 
 // Define the initial state using that type
-const initialState: burgerConstructorState = {
+export const initialState: burgerConstructorState = {
   bunItem: {},
   middleItems: []
 }

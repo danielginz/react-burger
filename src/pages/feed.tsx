@@ -24,7 +24,6 @@ export const FeedPage: FC = () => {
     feedSuccess,
     feedFailed
   } = useAppSelector(
-     // @ts-ignore
     state => state.feed
   );
 

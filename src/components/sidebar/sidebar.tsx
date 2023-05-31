@@ -51,8 +51,8 @@ const Sidebar: FC = () => {
 
   const onLogoutClick = () => {
     if (!userRequest) {
-      // @ts-ignore
-      dispatch(logout(redirectOnSuccess));
+      //dispatch(logout(redirectOnSuccess));
+      dispatch(logout());
     }
   };
 

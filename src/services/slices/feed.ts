@@ -35,7 +35,7 @@ interface feedState {
   ordersTotalToday: number
 }
 
-const initialState: feedState = {
+export const initialState: feedState = {
   orders: [],
   feedRequest: false,
   feedFailed: false,

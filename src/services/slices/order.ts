@@ -126,7 +126,7 @@ interface orderState {
     isOrderModalOpen: boolean,
 }
 
-const initialState: orderState = {
+export const initialState: orderState = {
     orderData: {},
     orderRequest: false,
     orderFailed: false,
