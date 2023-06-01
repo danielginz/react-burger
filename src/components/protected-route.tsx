@@ -1,18 +1,15 @@
-import {Navigate, RouteProps} from 'react-router-dom';
+import {Navigate, RouteProps, useLocation} from 'react-router-dom';
 import { useAppSelector, useAppDispatch } from '../services/hooks';
 import { userSlice } from '../services/slices/user';
-import {FC, useEffect} from "react";
+import {FC, PropsWithChildren, useEffect} from "react";
 
-export const ProtectedRoute: React.FC<{ element: JSX.Element }> = ({ element }) => {
+export type ProtectedRoute = PropsWithChildren<{
+  anonymous: boolean;
+  children: JSX.Element
+}>
+
+export function ProtectedRoute({ children, anonymous = false }: ProtectedRoute) {
   const dispatch = useAppDispatch();
-
-  //const currentUrl = window.location.pathname
-
-  const {
-    isAuthorized
-  } = useAppSelector(
-      state => state.user
-  );
 
   const { checkAuthorization } = userSlice.actions;
 
@@ -20,5 +17,22 @@ export const ProtectedRoute: React.FC<{ element: JSX.Element }> = ({ element }) 
     dispatch(checkAuthorization());
   }, []);
 
-  return isAuthorized ? element : <Navigate to="/login" replace/>;
+  const isAuthorized = useAppSelector((store) => store.user.isAuthorized);
+
+  const location = useLocation();
+  const from = location.state?.from || '/';
+  // Если разрешен неавторизованный доступ, а пользователь авторизован...
+  if (anonymous && isAuthorized) {
+    // ...то отправляем его на предыдущую страницу
+    return <Navigate to={ from } />;
+  }
+
+  // Если требуется авторизация, а пользователь не авторизован...
+  if (!anonymous && !isAuthorized) {
+    // ...то отправляем его на страницу логин
+    return <Navigate to="/login" state={{ from: location}}/>;
+  }
+
+  // Если все ок, то рендерим внутреннее содержимое
+  return children;
 }
