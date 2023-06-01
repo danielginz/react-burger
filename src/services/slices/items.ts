@@ -2,7 +2,6 @@ import {createSlice, PayloadAction} from '@reduxjs/toolkit'
 import { NORMA_API } from '../../utils/burger-api';
 import { useAppDispatch } from '../../services/hooks';
 import {IIngredient} from "../types";
-import { v4 as generateUniqueId } from 'uuid';
 
 export const getItems = () => {
   return (dispatch = useAppDispatch()) => {
@@ -59,10 +58,6 @@ export const itemsSlice = createSlice({
             state.itemsRequest = false;
             state.itemsFailed = false;
             state.items = action.payload;
-            state.items = [...state.items].map(item => ({
-                ...item,
-                uniqueId: generateUniqueId()
-            }));
         },
         increaseQuantityValue(state, action: PayloadAction<string>) {
             state.items = [...state.items].map(item =>

@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { IIngredient } from '../types'
+import { v4 as generateUniqueId } from 'uuid';
 
 interface burgerConstructorState {
   bunItem: IIngredient,
@@ -17,9 +18,18 @@ export const burgerConstructorSlice = createSlice({
   initialState,
   reducers: {
     setBunItem(state, action: PayloadAction<IIngredient>) {
+      state.bunItem = {
+        ...state.bunItem,
+        uniqueId: generateUniqueId()
+      }
+
       state.bunItem = action.payload;
     },
     addMiddleItem(state, action: PayloadAction<IIngredient>) {
+      action.payload = {
+        ...action.payload,
+        uniqueId: generateUniqueId()
+      }
       state.middleItems.push(action.payload);
     },
     moveMiddleItem(state, action: PayloadAction<{ oldIndex: number, newIndex: number }>) {
