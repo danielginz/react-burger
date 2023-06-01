@@ -1,7 +1,5 @@
 import { useState } from "react";
 
-//export function useForm(inputValues={}) {
-//export function useForm(inputValues: {}) {
 interface ITestBun {
     _id: number,
     name: string,
