@@ -21,7 +21,4 @@ export const ProtectedRoute: React.FC<{ element: JSX.Element }> = ({ element }) 
   }, []);
 
   return isAuthorized ? element : <Navigate to="/login" replace/>;
-  //return <Navigate to="/login" replace/>;
-  //return !!children ? children : <Navigate to="/login" replace/>;
-
 }
