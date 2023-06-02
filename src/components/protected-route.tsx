@@ -1,14 +1,14 @@
-import {Navigate, RouteProps, useLocation} from 'react-router-dom';
+import {Navigate, useLocation} from 'react-router-dom';
 import { useAppSelector, useAppDispatch } from '../services/hooks';
 import { userSlice } from '../services/slices/user';
-import {FC, PropsWithChildren, useEffect} from "react";
+import { PropsWithChildren, useEffect} from "react";
 
 export type ProtectedRoute = PropsWithChildren<{
   anonymous: boolean;
   children: JSX.Element
 }>
 
-export function ProtectedRoute({ children, anonymous = false }: ProtectedRoute) {
+export function ProtectedRoute({ children, anonymous }: ProtectedRoute) {
   const dispatch = useAppDispatch();
 
   const { checkAuthorization } = userSlice.actions;
