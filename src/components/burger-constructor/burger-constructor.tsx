@@ -20,6 +20,7 @@ const BurgerConstructor: FC = () => {
     const {setBunItem} = burgerConstructorSlice.actions
 
     const {bunItem, middleItems} = useAppSelector(state => state.burgerConstructor);
+    console.log("AAA, bunItem :+"+JSON.stringify(bunItem))
 
     const { isAuthorized } = useAppSelector(state => state.user);
 
@@ -162,6 +163,7 @@ const BurgerConstructor: FC = () => {
                     htmlType="button"
                     type="primary"
                     size="medium"
+                    disabled={Object.keys(bunItem).length === 0}
                     /*onClick={bunItem ? onOrderButtonClick : null}*/
                     onClick={!!bunItem && onOrderButtonClick }
                 >
