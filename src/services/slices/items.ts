@@ -21,7 +21,6 @@ export const getItems = () => {
             console.log(error);
             dispatch(itemsSlice.actions.failed());
           })
-    //}
   }
 }
 
