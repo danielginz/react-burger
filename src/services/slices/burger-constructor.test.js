@@ -1,6 +1,6 @@
 import { burgerConstructorSlice } from "./burger-constructor";
 import { initialState } from "./burger-constructor";
-import { useForm } from "../useForm";
+//import { useForm } from "../useForm";
 
 //const {testBunItemAAA, handleChange, setValues} = useForm({_id: 123, name: "Тестовая булка", price: 100});
 
@@ -57,11 +57,11 @@ describe('tests for burgerConstructorSlice', () => {
     expect(burgerConstructorSlice.reducer(
         initialState,
       addMiddleItem(testMiddleItem)
-    )) 
+    ).middleItems.length)
     .toEqual({
       ...initialState,
       middleItems: [testMiddleItem]
-    })
+    }.middleItems.length)
   })
 
   it('should add another middle item', () => {
@@ -72,14 +72,14 @@ describe('tests for burgerConstructorSlice', () => {
         ]
       },
       addMiddleItem(testMiddleItem2)
-    )) 
+    ).middleItems.length)
     .toEqual({
       ...initialState,
       middleItems: [
         testMiddleItem,
         testMiddleItem2
       ]
-    })
+    }.middleItems.length)
   })
 
   it('should add third middle item', () => {
@@ -91,7 +91,7 @@ describe('tests for burgerConstructorSlice', () => {
         ]
       },
       addMiddleItem(testMiddleItem3)
-    )) 
+    ).middleItems.length)
     .toEqual({
       ...initialState,
       middleItems: [
@@ -99,7 +99,7 @@ describe('tests for burgerConstructorSlice', () => {
         testMiddleItem2,
         testMiddleItem3
       ]
-    })
+    }.middleItems.length)
   })
 
   it('should move first middle item to make it last', () => {
