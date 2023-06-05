@@ -37,8 +37,7 @@ const BurgerConstructor: FC = () => {
 
     const totalPrice = useMemo(() => {
         if (bunItem !== null && bunItem !== undefined && typeof bunItem.price === "number") {
-            // @ts-ignore, could be removed
-            return bunItem.price * 2 + middleItems.reduce((acc, p) => acc + p.price, 0);
+            return bunItem.price * 2 + middleItems.reduce((acc, p) => !!p ? (acc + (p.price || 0)) : 0, 0);
         } else {
             return "";
         }
@@ -75,10 +74,6 @@ const BurgerConstructor: FC = () => {
         accept: [`${SAUCE}`, `${MAIN}`]
     });
 
-    const generateItemHash = () => (
-        Math.floor(Math.random() * 10000)
-    );
-
     return (
         <>
             <ul className={burgerConstructorStyles.burger_constructor_list + ' ml-4 mt-25 mb-10 pr-4'}>
@@ -112,7 +107,7 @@ const BurgerConstructor: FC = () => {
                                     <DraggableConstructorElement
                                         item={item}
                                         index={index}
-                                        key={item._id+generateItemHash()}
+                                        key={item.uniqueId}
                                     />
                                 ))}
                             </ul>
@@ -167,8 +162,9 @@ const BurgerConstructor: FC = () => {
                     htmlType="button"
                     type="primary"
                     size="medium"
-                    // @ts-ignore
-                    onClick={bunItem ? onOrderButtonClick : null}
+                    disabled={Object.keys(bunItem).length === 0}
+                    /*onClick={bunItem ? onOrderButtonClick : null}*/
+                    onClick={!!bunItem && onOrderButtonClick }
                 >
                     Оформить заказ
                 </Button>

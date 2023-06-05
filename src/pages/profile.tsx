@@ -145,7 +145,6 @@ export const ProfilePage: FC = () => {
                 !userFailed &&
                 !userRequest && (
 
-                    // @ts-ignore
                     <Form>
                       <Input
                           type={'text'}

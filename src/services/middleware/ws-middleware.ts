@@ -15,7 +15,6 @@ const {
 } = wsSlice.actions;
 
 export const wsMiddleware = () => {
-
   return (store: MiddlewareAPI) => {
     let socket: WebSocket | null = null;
 

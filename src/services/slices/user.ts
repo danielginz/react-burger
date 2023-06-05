@@ -1,6 +1,6 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit'
 
-import {NORMA_API, USER_ORDERS_WS_URL} from '../../utils/burger-api';
+import { NORMA_API } from '../../utils/burger-api';
 import { useAppDispatch } from '../../services/hooks';
 import { getCookie, setCookie, deleteCookie } from '../../services/utils';
 import {IUser} from "../types";
@@ -445,7 +445,7 @@ export const stopHistory = () => {
   }
 }
 
-const fakePassword: string = '123456';
+export const fakePassword: string = '123456';
 
 interface userState {
   user: IUser,
@@ -455,7 +455,7 @@ interface userState {
   isAuthorized: boolean
 }
 
-const initialState: userState = {
+export const initialState: userState = {
   user: {
     password: fakePassword,
   },

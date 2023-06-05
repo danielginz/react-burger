@@ -21,7 +21,6 @@ export const getItems = () => {
             console.log(error);
             dispatch(itemsSlice.actions.failed());
           })
-    //}
   }
 }
 
@@ -32,7 +31,7 @@ interface itemsState {
     itemsSuccess: boolean,
 }
 
-const initialState: itemsState = {
+export const initialState: itemsState = {
     items: [],
     itemsRequest: false,
     itemsFailed: false,

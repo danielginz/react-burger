@@ -1,17 +1,15 @@
 import {Navigate, RouteProps} from 'react-router-dom';
-import { useSelector, useDispatch } from "react-redux";
+import { useAppSelector, useAppDispatch } from '../services/hooks';
 
 import { userSlice } from '../services/slices/user';
 import {FC, useEffect } from "react";
 
-// @ts-ignore
-export const ProtectedGuestRoute: FC<RouteProps> = ({ element }) => {
-  const dispatch = useDispatch();
+export const ProtectedGuestRoute: React.FC<{ element: JSX.Element }> = ({ element }) => {
+  const dispatch = useAppDispatch();
 
   const {
     isAuthorized
-  } = useSelector(
-      // @ts-ignore
+  } = useAppSelector(
       state => state.user
   );
 

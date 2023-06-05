@@ -5,6 +5,9 @@ import ModalOverlay from '../modal-overlay/modal-overlay';
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
 const modalRoot = document.getElementById('modal-root');
+if (!modalRoot) {
+    throw new Error("The element #modal-root wasn't found");
+}
 
 interface IModal {
     children: JSX.Element,
@@ -47,7 +50,7 @@ const Modal: FC<IModal> = ({
                 {children}
             </div>
         </>,
-        // @ts-ignore
+
         modalRoot
     );
 }

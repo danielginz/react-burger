@@ -1,5 +1,5 @@
-import { useEffect } from 'react';
-import { useSelector, useDispatch } from "react-redux";
+import React, { useEffect } from 'react';
+import { useAppSelector, useAppDispatch } from './services/hooks';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import { getItems } from './services/slices/items';
 
@@ -31,21 +31,19 @@ import {
 } from "./utils/routes-constants";
 
 function App() {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   let location = useLocation();
   let background = location.state && location.state.background;
 
   const {
     itemsSuccess,
-  } = useSelector(
-      // @ts-ignore
+  } = useAppSelector(
       state => state.items
   );
 
   useEffect(() => {
     if (!itemsSuccess) {
-      // @ts-ignore
       dispatch(getItems());
     }
   }, [dispatch, itemsSuccess]);
@@ -65,9 +63,13 @@ function App() {
           <Route path={FEED} element={<FeedPage />} />
           <Route path={FEED_ID} element={<OrderPage />} />
 
-          <Route path={PROFILE} element={<ProtectedRoute element={<ProfilePage />} />} />
+          <Route path={PROFILE} element={<ProtectedRoute children={<ProfilePage />} anonymous={false}  />} />
+          <Route path={PROFILE_ORDERS} element={<ProtectedRoute children={<HistoryPage />} anonymous={false}  />} />
+          <Route path={PROFILE_ORDERS_ID} element={<ProtectedRoute children={<OrderPage />} anonymous={false}  />} />
+
+          {/*<Route path={PROFILE} element={<ProtectedRoute children={<ProfilePage />} />} />
           <Route path={PROFILE_ORDERS} element={<ProtectedRoute element={<HistoryPage />} />} />
-          <Route path={PROFILE_ORDERS_ID} element={<ProtectedRoute element={<OrderPage />} />} />
+          <Route path={PROFILE_ORDERS_ID} element={<ProtectedRoute element={<OrderPage />} />} />*/}
 
 
           <Route path={INGRIDIENTS_ID} element={<IngredientPage />} />
